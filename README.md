@@ -1,110 +1,241 @@
-# ☕ Brewlang Coffee Management System
+# Brewlang Coffee Ordering & Management System
 
-Welcome to the **Brewlang Coffee Management System**, a complete, robust, and beautifully designed full-stack web application built to streamline operations for modern coffee shops. This system integrates public ordering, staff queue management, and high-level owner financial tracking into a single unified platform.
+Brewlang is a Laravel-based coffee shop ordering and operations platform. It combines a public ordering experience with internal staff and owner tools for order handling, menu management, expense tracking, reporting, and staff account administration.
 
----
+The application is designed to run primarily through Docker Compose and uses Mailpit for local email inspection.
 
-## 🌟 Key Features
+## Overview
 
-### 🛒 Public Storefront
-- **Beautiful UI:** Premium, elegant, and responsive storefront using Flowbite and Tailwind CSS v4.
-- **Dynamic Menu:** Browse products across multiple interactive categories.
-- **Shopping Cart:** Add, remove, and manage quantities of items effortlessly.
-- **Transactional Checkout:** Secure database transactions to guarantee order integrity, generating automated confirmation emails via Mailpit.
+The system is split into three operational areas:
 
-### 👨‍🍳 Staff Operations Portal
-- **Order Queue Management:** Real-time dashboards to manage tickets through strict workflows (`Unpaid` ➔ `Paid` ➔ `In Progress` ➔ `Done`).
-- **Menu Management (CRUD):** Efficiently upload product images, create categories, and publish new pastries or coffee blends.
+- Public storefront for browsing the menu, managing a session-based cart, and placing orders
+- Staff portal for monitoring the order queue, progressing order status, and managing menu items
+- Owner portal for dashboards, read-only order oversight, expenses, reports, and staff account management
 
-### 📈 Owner / Admin Dashboard
-- **Financial Analytics:** Gain actionable insights into Gross Income, Net Profit, and overall overhead.
-- **Expense Tracking:** Dedicated modules for logging operational expenses.
-- **Account Management:** Instantly onboard new staff or disable inactive accounts.
-- **Exportable Reports:** Execute timeframe-specific financial filtering intended for accounting exports.
+## Core Features
 
----
+### Public Ordering
 
-## 🛠 Tech Stack
+- Browse active menu items by category
+- Add items to cart with quantity and per-item notes
+- Checkout with customer details and automatic order code generation
+- Order confirmation email delivery via Mailpit in development
+- Checkout success page driven by session state
 
-- **Backend:** Laravel 13 (PHP)
-- **Frontend / Styling:** Tailwind CSS v4, Flowbite, Blade Templates, Vite
-- **Database:** MySQL
-- **Email Testing:** Mailpit (configured for strict transactional emails)
-- **Testing Engine:** PHPUnit (Factories + Feature testing suite via specific testing databases)
+### Staff Operations
 
----
+- Staff dashboard with queue-oriented metrics
+- Order queue listing and detail view
+- Valid forward-only status transitions:
+  `unpaid -> paid -> in_progress -> all_done`
+- Menu management for creating, editing, and activating/deactivating items
 
-## 💻 Running the Project Locally (Docker Setup)
+### Owner Operations
 
-This project has been heavily optimized for containerized development to eliminate environment setup overhead. A fully automated **Docker** environment is included out of the box.
+- Owner dashboard for business overview
+- Read-only order listing and detail pages
+- Expense recording
+- Staff account creation and activation toggling
+- Date-filtered financial reporting
+
+## Tech Stack
+
+- Backend: Laravel 13, PHP 8.4
+- Frontend: Blade, Tailwind CSS v4, Flowbite, Vite
+- Database: MySQL 8.0
+- Mail: Mailpit
+- Testing: PHPUnit with SQLite test database
+- Runtime: Docker Compose
+
+## Architecture Notes
+
+- Authentication uses Laravel session auth with a manually implemented login flow
+- Cart data is stored in session under the `cart` key
+- Checkout logic is centralized in `CheckoutService`
+- Order status transition rules are centralized in `OrderStatusService`
+- Public menu recommendations and cart behavior are handled through dedicated services
+
+## Default URLs
+
+After the stack is running, the main endpoints are:
+
+- App: `http://localhost:8000`
+- Mailpit UI: `http://localhost:8025`
+- Vite dev server: `http://localhost:5173` if you explicitly run Vite
+
+## Default Accounts
+
+Seeded credentials:
+
+| Role | Email | Password |
+|---|---|---|
+| Owner | `owner@brewlang.test` | `password` |
+| Staff | `staff1@brewlang.test` | `password` |
+| Staff | `staff2@brewlang.test` | `password` |
+
+## Local Development
 
 ### Prerequisites
-Make sure you have the following installed:
-- [Docker](https://docs.docker.com/get-docker/) & Docker Compose
 
-### Installation Guide
+- Docker
+- Docker Compose
 
-**1. Clone the Repository:**
-```bash
-git clone [<repository-url>](https://github.com/HIUNCY/brewlang-coffee)
-cd brewlang
-```
+### Start the Application
 
-**2. Spin Up the Containers:**
-Run the following command at the root of the project to build and start the ecosystem in the background:
+Build and start the containers:
+
 ```bash
 docker compose up -d --build
 ```
 
-**That's it! Everything else is automated.** 
-Behind the scenes, the `entrypoint.sh` inside the container will automatically:
-- Install PHP Dependencies (`composer install`)
-- Configure environmental variables.
-- Generate application keys.
-- Run database migrations and seed the standard test accounts.
-- Create storage links.
-- Run `npm run dev` to serve Vite assets dynamically.
-- Start the Laravel `artisan serve` application server.
+The `app` container entrypoint will:
 
-*(Note: The initial setup may take 2-5 minutes as the Docker image downloads dependencies).*
+- install Composer dependencies
+- copy `.env.docker` into `.env` if needed
+- generate `APP_KEY` when missing
+- run migrations
+- seed the database
+- create the storage symlink
+- clear cached config, routes, and views
+- start Laravel on port `8000`
 
-### Accessing the System
-Once the containers are successfully running, the applications are immediately accessible via:
+### Stop the Application
 
-- **Web Application:** [http://localhost:8000](http://localhost:8000)
-- **Vite Hot-Reload Server:** `http://localhost:5173`
-- **Mailpit (Email Interception UI):** `http://localhost:8025`
-
-To safely stop the environment later, run:
 ```bash
 docker compose down
 ```
 
----
+### Useful Docker Commands
 
-## 🔐 Default Credentials
+Open a shell inside the app container:
 
-To explore the backend operations, use the seeded test accounts:
-
-**Owner Access (Full analytics and staff management):**
-- **Email:** `owner@brewlang.test`
-- **Password:** `password`
-
-**Staff Access (Order queues and menu catalog):**
-- **Email:** `staff1@brewlang.test`
-- **Password:** `password`
-- **Email:** `staff2@brewlang.test`
-- **Password:** `password`
-
----
-
-## 🧪 Running Tests
-This project includes a robust PHPUnit testing environment to ensure feature stability. To run the automated feature and unit tests:
 ```bash
-php artisan test
+docker compose exec app sh
 ```
-*(Ensure `phpunit.xml` points to an isolated testing database if modifying testing variables).* 
 
----
+Re-run migrations and seeders:
 
-Made with ❤️ for Brewlang.
+```bash
+docker compose exec app php artisan migrate:fresh --seed
+```
+
+Inspect queued mail in Mailpit:
+
+```text
+http://localhost:8025
+```
+
+## Frontend Assets
+
+The application uses Vite for asset bundling.
+
+For active frontend development, run Vite explicitly:
+
+```bash
+docker compose exec app npm install
+docker compose exec app npm run dev -- --host 0.0.0.0 --port 5173
+```
+
+For a production-style local build:
+
+```bash
+docker compose exec app npm install
+docker compose exec app npm run build
+```
+
+## Testing
+
+Run the automated suite from the app container:
+
+```bash
+docker compose exec app php artisan test
+```
+
+Current test coverage includes:
+
+- authentication and role access
+- cart JSON endpoints
+- checkout flow
+- owner expense management
+- owner staff account management
+- public menu browsing
+- report filtering
+- staff menu management
+- staff order status transitions
+
+The test harness is configured to use SQLite so the suite is isolated from the development MySQL database.
+
+## Project Structure
+
+Key directories:
+
+```text
+app/
+  Http/Controllers/
+  Http/Requests/
+  Mail/
+  Models/
+  Services/
+database/
+  factories/
+  migrations/
+  seeders/
+resources/views/
+  auth/
+  components/
+  emails/
+  layouts/
+  owner/
+  public/
+  staff/
+routes/
+  web.php
+docker/
+  php/
+```
+
+## Important Business Rules
+
+- Only active menu items are shown publicly
+- Cart is session-based and does not require authentication
+- Order codes use the format `BRW-XXXXXX`
+- Order status can only move forward according to the defined flow
+- Owner accounts cannot be deactivated
+- Checkout success page depends on `session('order_code')`
+
+## Email Behavior
+
+Development email is routed to Mailpit.
+
+Two mail flows are implemented:
+
+- order confirmation after checkout
+- order status update notification after valid status transition
+
+Mail sending failures are logged so the order lifecycle is not blocked by SMTP issues.
+
+## Deployment Notes
+
+Before production deployment, review at least the following:
+
+- replace development mail settings
+- set a production `APP_KEY`
+- set production database credentials
+- build frontend assets with `npm run build`
+- ensure `public/storage` is linked
+- disable debug mode
+- configure proper web server and process supervision instead of `php artisan serve`
+
+This repository is currently optimized first for local containerized development and functional verification.
+
+## Quality Status
+
+At the time of this update:
+
+- primary public, staff, and owner flows are implemented
+- feature and unit test suite passes
+- Blade component structure has been aligned with the project TDD
+
+## License
+
+This project inherits the Laravel application license context unless your organization defines a separate internal license or usage policy.

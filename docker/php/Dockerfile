@@ -11,7 +11,7 @@ RUN apk add --no-cache \
     nodejs \
     npm \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_mysql gd bcmath opcache
+    && docker-php-ext-install pdo_mysql pdo_sqlite gd bcmath opcache
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 

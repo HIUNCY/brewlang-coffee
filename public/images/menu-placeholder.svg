@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Menu placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#fde68a"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="480" fill="url(#bg)"/>
+  <circle cx="320" cy="220" r="96" fill="#92400e" opacity="0.12"/>
+  <path d="M245 192h150c14 0 25 11 25 25v33c0 44-35 80-79 80h-16c-44 0-80-36-80-80v-33c0-14 11-25 25-25zm32 155h88c0 18-14 33-32 33h-24c-18 0-32-15-32-33z" fill="#78350f"/>
+  <path d="M420 218h22c26 0 47 21 47 47s-21 47-47 47h-9" fill="none" stroke="#78350f" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="320" y="425" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#78350f">Brewlang Menu</text>
+</svg>

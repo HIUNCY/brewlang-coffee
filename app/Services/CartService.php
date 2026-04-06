@@ -8,116 +8,112 @@ class CartService
 {
     private string $sessionKey = 'cart';
 
-    /**
-     * Get the raw cart array from the session.
-     * Format: [menu_id => quantity]
-     */
     public function getCart(): array
     {
-        return session()->get($this->sessionKey, []);
+        return session()->get($this->sessionKey, ['items' => []]);
     }
 
-    /**
-     * Add an item to the cart, or increment its quantity if it already exists.
-     */
-    public function add(int $menuId, int $quantity = 1): void
+    public function addItem(Menu $menu, int $quantity = 1): void
     {
         $cart = $this->getCart();
-        
-        if (isset($cart[$menuId])) {
-            $cart[$menuId] += $quantity;
+
+        if (isset($cart['items'][$menu->id])) {
+            $cart['items'][$menu->id]['quantity'] += $quantity;
         } else {
-            $cart[$menuId] = $quantity;
+            $cart['items'][$menu->id] = [
+                'menu_id' => $menu->id,
+                'name' => $menu->name,
+                'price' => (float) $menu->price,
+                'quantity' => max(1, $quantity),
+                'note' => null,
+            ];
         }
-        
-        // Prevent negative or zero quantities from getting in via add
-        if ($cart[$menuId] <= 0) {
-            unset($cart[$menuId]);
+
+        if ($cart['items'][$menu->id]['quantity'] <= 0) {
+            unset($cart['items'][$menu->id]);
         }
 
         session()->put($this->sessionKey, $cart);
     }
 
-    /**
-     * Update the exact quantity of an item in the cart.
-     */
-    public function update(int $menuId, int $quantity): void
+    public function updateQuantity(int $menuId, int $quantity): void
     {
         $cart = $this->getCart();
-        
+
+        if (!isset($cart['items'][$menuId])) {
+            return;
+        }
+
         if ($quantity <= 0) {
-            unset($cart[$menuId]);
+            unset($cart['items'][$menuId]);
         } else {
-            $cart[$menuId] = $quantity;
+            $cart['items'][$menuId]['quantity'] = $quantity;
         }
 
         session()->put($this->sessionKey, $cart);
     }
 
-    /**
-     * Remove an item from the cart completely.
-     */
-    public function remove(int $menuId): void
+    public function updateNote(int $menuId, string $note): void
     {
         $cart = $this->getCart();
-        unset($cart[$menuId]);
+
+        if (!isset($cart['items'][$menuId])) {
+            return;
+        }
+
+        $cart['items'][$menuId]['note'] = trim($note) !== '' ? trim($note) : null;
         session()->put($this->sessionKey, $cart);
     }
 
-    /**
-     * Clear the entire cart.
-     */
-    public function clear(): void
+    public function removeItem(int $menuId): void
+    {
+        $cart = $this->getCart();
+        unset($cart['items'][$menuId]);
+        session()->put($this->sessionKey, $cart);
+    }
+
+    public function clearCart(): void
     {
         session()->forget($this->sessionKey);
     }
 
-    /**
-     * Get enriched cart details including the Menu models and calculated totals.
-     */
-    public function getCartDetails(): array
+    public function getTotal(): float
     {
-        $cart = $this->getCart();
-        $menuIds = array_keys($cart);
-        
-        if (empty($menuIds)) {
-            return [
-                'items' => [],
-                'total_quantity' => 0,
-                'total_price' => 0,
-            ];
+        return collect($this->getCart()['items'] ?? [])
+            ->sum(fn (array $item) => ((float) $item['price']) * ((int) $item['quantity']));
+    }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->getCart()['items'] ?? []);
+    }
+
+    public function getDetailedItems()
+    {
+        $cartItems = collect($this->getCart()['items'] ?? []);
+
+        if ($cartItems->isEmpty()) {
+            return collect();
         }
 
-        $menus = Menu::whereIn('id', $menuIds)->get()->keyBy('id');
-        
-        $items = [];
-        $totalQuantity = 0;
-        $totalPrice = 0;
+        $menus = Menu::active()
+            ->whereIn('id', $cartItems->pluck('menu_id'))
+            ->get()
+            ->keyBy('id');
 
-        foreach ($cart as $menuId => $quantity) {
-            $menu = $menus->get($menuId);
-            
-            // If menu was deleted or made inactive since adding to cart, skip it
-            if (!$menu || !$menu->is_active) {
-                continue;
-            }
+        return $cartItems
+            ->map(function (array $item) use ($menus) {
+                return [
+                    ...$item,
+                    'menu' => $menus->get($item['menu_id']),
+                    'subtotal' => ((float) $item['price']) * ((int) $item['quantity']),
+                ];
+            })
+            ->values();
+    }
 
-            $subtotal = $menu->price * $quantity;
-            
-            $items[] = [
-                'menu' => $menu,
-                'quantity' => $quantity,
-                'subtotal' => $subtotal,
-            ];
-            
-            $totalQuantity += $quantity;
-            $totalPrice += $subtotal;
-        }
-
-        return [
-            'items' => $items,
-            'total_quantity' => $totalQuantity,
-            'total_price' => $totalPrice,
-        ];
+    public function getItemCount(): int
+    {
+        return collect($this->getCart()['items'] ?? [])->sum('quantity');
     }
 }

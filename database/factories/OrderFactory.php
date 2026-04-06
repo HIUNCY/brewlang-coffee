@@ -2,19 +2,20 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Order;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class OrderFactory extends Factory
 {
     public function definition(): array
     {
         return [
-            'order_code' => 'ORD-' . strtoupper(uniqid()),
+            'order_code' => 'BRW-' . strtoupper(Str::random(6)),
             'customer_name' => fake()->name(),
             'customer_phone' => fake()->phoneNumber(),
             'customer_email' => fake()->safeEmail(),
-            'table_number' => fake()->numberBetween(1, 20),
+            'table_number' => (string) fake()->numberBetween(1, 20),
             'status' => 'unpaid',
             'total_price' => fake()->numberBetween(20000, 200000),
         ];

@@ -27,7 +27,10 @@ class LoginController extends Controller
                 Auth::logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
-                return back()->withErrors(['email' => 'This account has been deactivated.']);
+                return redirect()
+                    ->route('login')
+                    ->withErrors(['email' => 'This account has been deactivated.'])
+                    ->withInput($request->only('email'));
             }
 
             $request->session()->regenerate();
@@ -39,9 +42,12 @@ class LoginController extends Controller
             return redirect()->route('staff.dashboard');
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+        return redirect()
+            ->route('login')
+            ->withErrors([
+                'email' => 'The provided credentials do not match our records.',
+            ])
+            ->withInput($request->only('email'));
     }
 
     public function logout(Request $request)

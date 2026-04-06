@@ -11,7 +11,7 @@ class StaffAccountController extends Controller
 {
     public function index()
     {
-        $users = User::orderBy('name')->get();
+        $users = User::orderBy('role')->orderBy('name')->get();
         return view('owner.staff.index', compact('users'));
     }
 
@@ -34,13 +34,12 @@ class StaffAccountController extends Controller
 
     public function toggleActive(User $user)
     {
-        if ($user->role === 'owner') {
-            return redirect()->back()->with('error', 'Cannot deactivate an owner account.');
+        if ($user->isOwner()) {
+            return redirect()->back()->with('error', 'Owner account cannot be deactivated.');
         }
 
-        $user->is_active = !$user->is_active;
-        $user->save();
+        $user->update(['is_active' => !$user->is_active]);
 
-        return redirect()->back()->with('success', "{$user->name}'s account is now " . ($user->is_active ? 'Active' : 'Inactive'));
+        return redirect()->back()->with('success', 'Staff account status updated.');
     }
 }

@@ -2,44 +2,79 @@
 
 namespace Database\Seeders;
 
+use App\Models\Menu;
 use App\Models\Order;
-use App\Models\OrderItem;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class OrderSeeder extends Seeder
 {
     public function run(): void
     {
-        try {
-            // Order 1: Completed
-            $order1 = Order::create([
-                'order_code' => 'ORD-' . strtoupper(uniqid()),
-                'customer_name' => 'John Doe',
-                'status' => 'all_done',
-                'total_price' => 55000,
-            ]);
-            OrderItem::create(['order_id' => $order1->id, 'menu_id' => 1, 'quantity' => 1, 'price' => 25000]); // Espresso
-            OrderItem::create(['order_id' => $order1->id, 'menu_id' => 9, 'quantity' => 1, 'price' => 30000]); // Banana Cake
-
-            // Order 2: Pending
-            $order2 = Order::create([
-                'order_code' => 'ORD-' . strtoupper(uniqid()),
-                'customer_name' => 'Jane Smith',
-                'status' => 'unpaid',
-                'total_price' => 40000,
-            ]);
-            OrderItem::create(['order_id' => $order2->id, 'menu_id' => 4, 'quantity' => 1, 'price' => 40000]); // Matcha Latte
-
-            // Order 3: Preparing
-            $order3 = Order::create([
-                'order_code' => 'ORD-' . strtoupper(uniqid()),
-                'customer_name' => 'Bob',
-                'status' => 'in_progress',
-                'total_price' => 35000,
-            ]);
-            OrderItem::create(['order_id' => $order3->id, 'menu_id' => 3, 'quantity' => 1, 'price' => 35000]); // Cappuccino
-        } catch (\Exception $e) {
-            // Ignore if already seeded
+        if (Order::exists()) {
+            return;
         }
+
+        $menus = Menu::query()->orderBy('id')->get();
+
+        if ($menus->count() < 8) {
+            return;
+        }
+
+        $statuses = [
+            'unpaid', 'unpaid',
+            'paid', 'paid',
+            'in_progress', 'in_progress',
+            'all_done', 'all_done',
+        ];
+
+        foreach ($statuses as $index => $status) {
+            $items = $this->buildItemsForIndex($menus, $index);
+            $total = $items->sum(fn (array $item) => $item['subtotal']);
+
+            $order = Order::create([
+                'order_code' => $this->generateOrderCode(),
+                'customer_name' => fake()->name(),
+                'customer_phone' => fake()->numerify('08##########'),
+                'customer_email' => fake()->unique()->safeEmail(),
+                'table_number' => (string) (($index % 12) + 1),
+                'status' => $status,
+                'total_price' => $total,
+            ]);
+
+            foreach ($items as $item) {
+                $order->items()->create($item);
+            }
+        }
+    }
+
+    private function buildItemsForIndex(Collection $menus, int $index): Collection
+    {
+        $itemCount = 2 + ($index % 3); // 2-4 items
+
+        return collect(range(0, $itemCount - 1))->map(function (int $offset) use ($menus, $index) {
+            $menu = $menus[($index + $offset) % $menus->count()];
+            $quantity = (($index + $offset) % 2) + 1;
+            $price = (float) $menu->price;
+
+            return [
+                'menu_id' => $menu->id,
+                'menu_name_snapshot' => $menu->name,
+                'price_snapshot' => $price,
+                'quantity' => $quantity,
+                'item_note' => null,
+                'subtotal' => $price * $quantity,
+            ];
+        });
+    }
+
+    private function generateOrderCode(): string
+    {
+        do {
+            $code = 'BRW-' . strtoupper(Str::random(6));
+        } while (Order::where('order_code', $code)->exists());
+
+        return $code;
     }
 }

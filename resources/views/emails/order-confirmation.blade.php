@@ -2,22 +2,22 @@
 <html>
 <head>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.6; color: #292524; max-width: 640px; margin: 0 auto; padding: 24px; }
         .header { text-align: center; border-bottom: 2px solid #78350f; padding-bottom: 20px; margin-bottom: 20px; }
         .order-code { font-size: 24px; font-weight: bold; color: #78350f; }
-        .details { background: #fdf8f6; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .details { background: #fffbeb; padding: 18px; border-radius: 12px; margin-bottom: 24px; }
         table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        th, td { padding: 10px; border-bottom: 1px solid #e5e7eb; text-align: left; }
-        th { background: #f9fafb; font-weight: 600; color: #6b7280; }
-        .total { font-weight: bold; font-size: 1.2em; text-align: right; }
-        .footer { margin-top: 30px; text-align: center; color: #6b7280; font-size: 0.9em; }
-        .highlight { font-weight: bold; color: #b45309; }
+        th, td { padding: 10px; border-bottom: 1px solid #e7e5e4; text-align: left; }
+        th { background: #fafaf9; font-weight: 600; color: #57534e; }
+        .total { font-weight: bold; font-size: 1.1em; text-align: right; }
+        .footer { margin-top: 30px; color: #6b7280; font-size: 0.92em; }
+        .highlight { font-weight: bold; color: #92400e; }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>Brewlang Coffee System</h1>
-        <p>Order Placed Successfully!</p>
+        <h1>Brewlang Coffee</h1>
+        <p>Your order has been received.</p>
     </div>
 
     <p>Hi {{ $order->customer_name }},</p>
@@ -42,10 +42,10 @@
         <tbody>
             @foreach($order->items as $item)
             <tr>
-                <td>{{ $item->menu->name ?? 'Unknown item' }}</td>
+                <td>{{ $item->menu_name_snapshot }}</td>
                 <td>{{ $item->quantity }}</td>
-                <td>Rp {{ number_format($item->price, 0, ',', '.') }}</td>
-                <td>Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</td>
+                <td>Rp {{ number_format($item->price_snapshot, 0, ',', '.') }}</td>
+                <td>Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
             </tr>
             @endforeach
         </tbody>
@@ -58,8 +58,8 @@
     </table>
 
     <div class="footer">
-        <p>Please show your Order Code to our staff.</p>
-        <p>&copy; {{ date('Y') }} Brewlang Coffee System</p>
+        <p>Please show your order code to our staff when needed.</p>
+        <p>&copy; {{ date('Y') }} Brewlang Coffee</p>
     </div>
 </body>
 </html>

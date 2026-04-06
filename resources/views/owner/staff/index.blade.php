@@ -2,9 +2,9 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Staff Accounts</h1>
-        <a href="{{ route('owner.staff.create') }}" class="bg-zinc-800 hover:bg-zinc-900 text-white font-bold py-2 px-4 rounded-lg shadow-sm transition">
+    <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">Staff Accounts</h1>
+        <a href="{{ route('owner.staff.create') }}" class="rounded-2xl bg-zinc-800 px-4 py-3 font-bold text-white shadow-sm transition hover:bg-zinc-900">
             + New Staff Account
         </a>
     </div>
@@ -20,7 +20,8 @@
         </div>
     @endif
 
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg border border-gray-200">
+    <div class="overflow-hidden rounded-[2rem] border border-gray-200 bg-white shadow">
+        <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
@@ -32,7 +33,7 @@
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-                @foreach($users as $user)
+                @forelse($users as $user)
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="font-medium text-gray-900">{{ $user->name }}</div>
@@ -49,7 +50,7 @@
                         </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        @if($user->role !== 'owner')
+                        @if(!$user->isOwner())
                         <form action="{{ route('owner.staff.toggle', $user) }}" method="POST" class="inline-block mr-2">
                             @csrf
                             @method('PATCH')
@@ -60,9 +61,14 @@
                         @endif
                     </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="5" class="px-6 py-12 text-center text-gray-500">No staff accounts found.</td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 @endsection

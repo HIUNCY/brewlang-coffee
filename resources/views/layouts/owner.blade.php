@@ -3,29 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Owner Dashboard - Brewlang</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-100 flex min-h-screen">
-    <aside class="w-64 bg-gray-800 text-white flex-shrink-0 min-h-screen flex flex-col">
-        <div class="p-4 font-bold text-xl border-b border-gray-700">Brewlang Owner</div>
-        <nav class="p-4 flex-grow space-y-2">
-            <a href="{{ route('owner.dashboard') }}" class="block px-4 py-2 rounded hover:bg-zinc-800">Dashboard</a>
-            <a href="{{ route('owner.expenses.index') }}" class="block px-4 py-2 rounded hover:bg-zinc-800">Expenses</a>
-            <a href="{{ route('owner.staff.index') }}" class="block px-4 py-2 rounded hover:bg-zinc-800">Staff Accounts</a>
-            <a href="{{ route('owner.reports.index') }}" class="block px-4 py-2 rounded hover:bg-zinc-800">Reports</a>
+<body class="min-h-screen bg-stone-100">
+    <div class="flex min-h-screen flex-col lg:flex-row">
+    <aside class="flex min-h-screen w-full flex-shrink-0 flex-col bg-stone-950 text-white lg:w-72">
+        <div class="border-b border-white/10 p-6">
+            <p class="text-sm font-semibold uppercase tracking-[0.28em] text-amber-300">Brewlang</p>
+            <h1 class="mt-3 text-2xl font-black tracking-tight">Owner Panel</h1>
+        </div>
+        <nav class="flex-grow space-y-2 p-4">
+            <a href="{{ route('owner.dashboard') }}" class="block rounded-2xl px-4 py-3 font-semibold transition hover:bg-white/10">Dashboard</a>
+            <a href="{{ route('owner.orders.index') }}" class="block rounded-2xl px-4 py-3 font-semibold transition hover:bg-white/10">Orders</a>
+            <a href="{{ route('owner.expenses.index') }}" class="block rounded-2xl px-4 py-3 font-semibold transition hover:bg-white/10">Expenses</a>
+            <a href="{{ route('owner.staff.index') }}" class="block rounded-2xl px-4 py-3 font-semibold transition hover:bg-white/10">Staff Accounts</a>
+            <a href="{{ route('owner.reports.index') }}" class="block rounded-2xl px-4 py-3 font-semibold transition hover:bg-white/10">Reports</a>
         </nav>
-        <div class="p-4 border-t border-gray-700">
-            <div class="mb-2">{{ auth()->user()->name }} (Owner)</div>
+        <div class="border-t border-white/10 p-4">
+            <div class="mb-2 font-medium">{{ auth()->user()->name }}</div>
+            <div class="mb-4 text-xs uppercase tracking-[0.24em] text-stone-400">Role: owner</div>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
-                <button type="submit" class="w-full text-left px-4 py-2 bg-red-600 rounded hover:bg-red-700">Logout</button>
+                <button type="submit" class="w-full rounded-2xl bg-amber-400 px-4 py-3 text-left font-semibold text-stone-950 transition hover:bg-amber-300">Logout</button>
             </form>
         </div>
     </aside>
 
-    <main class="flex-grow p-8 w-full overflow-y-auto">
+    <main class="w-full flex-grow overflow-y-auto p-5 sm:p-8">
         @yield('content')
     </main>
+    </div>
 </body>
 </html>

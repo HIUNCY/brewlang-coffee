@@ -63,9 +63,8 @@ class StaffMenuController extends Controller
 
     public function toggleActive(Menu $menu)
     {
-        $menu->is_active = !$menu->is_active;
-        $menu->save();
+        $menu->update(['is_active' => !$menu->is_active]);
 
-        return redirect()->back()->with('success', "{$menu->name} is now " . ($menu->is_active ? 'Active' : 'Inactive'));
+        return redirect()->back()->with('success', 'Menu item status updated.');
     }
 }

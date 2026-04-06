@@ -2,15 +2,15 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\User;
 
 class OwnerStaffTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_owner_can_create_staff(): void
+    public function test_owner_can_create_staff_account(): void
     {
         $owner = User::factory()->owner()->create();
 
@@ -27,14 +27,23 @@ class OwnerStaffTest extends TestCase
         ]);
     }
 
-    public function test_owner_can_toggle_staff_status(): void
+    public function test_staff_cannot_access_staff_account_creation(): void
+    {
+        $staff = User::factory()->staff()->create();
+
+        $response = $this->actingAs($staff)->get('/owner/staff/create');
+
+        $response->assertRedirect('/staff/dashboard');
+    }
+
+    public function test_owner_account_cannot_be_deactivated(): void
     {
         $owner = User::factory()->owner()->create();
-        $staff = User::factory()->staff()->create(['is_active' => true]);
 
-        $response = $this->actingAs($owner)->patch("/owner/staff/{$staff->id}/toggle");
+        $response = $this->actingAs($owner)->patch("/owner/staff/{$owner->id}/toggle");
 
         $response->assertRedirect();
-        $this->assertFalse($staff->fresh()->is_active);
+        $response->assertSessionHas('error');
+        $this->assertTrue($owner->fresh()->is_active);
     }
 }

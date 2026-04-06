@@ -3,32 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Staff Dashboard - Brewlang</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-100 flex min-h-screen">
-    <aside class="w-64 bg-blue-800 text-white flex-shrink-0 min-h-screen flex flex-col">
-        <div class="p-4 font-bold text-xl border-b border-blue-700 flex justify-between items-center">
-            Brewlang Staff
+<body class="min-h-screen bg-stone-100">
+    <div class="flex min-h-screen flex-col lg:flex-row">
+    <aside class="flex min-h-screen w-full flex-shrink-0 flex-col bg-stone-950 text-white lg:w-72">
+        <div class="border-b border-white/10 p-6">
+            <p class="text-sm font-semibold uppercase tracking-[0.28em] text-amber-300">Brewlang</p>
+            <h1 class="mt-3 text-2xl font-black tracking-tight">Staff Panel</h1>
         </div>
         
-        <nav class="p-4 flex-grow space-y-2">
-            <a href="{{ route('staff.dashboard') }}" class="block px-4 py-2 rounded hover:bg-blue-700">Dashboard / Orders</a>
-            <a href="{{ route('staff.menus.index') }}" class="block px-4 py-2 rounded hover:bg-blue-700">Menu Management</a>
+        <nav class="flex-grow space-y-2 p-4">
+            <a href="{{ route('staff.dashboard') }}" class="block rounded-2xl px-4 py-3 font-semibold transition hover:bg-white/10">Dashboard</a>
+            <a href="{{ route('staff.orders.index') }}" class="block rounded-2xl px-4 py-3 font-semibold transition hover:bg-white/10">Orders</a>
+            <a href="{{ route('staff.menus.index') }}" class="block rounded-2xl px-4 py-3 font-semibold transition hover:bg-white/10">Menu Management</a>
         </nav>
         
-        <div class="p-4 border-t border-blue-700">
+        <div class="border-t border-white/10 p-4">
             <div class="mb-2 font-medium">{{ auth()->user()->name }}</div>
-            <div class="mb-4 text-sm text-blue-200 capitalize text-xs">Role: {{ auth()->user()->role }}</div>
+            <div class="mb-4 text-xs uppercase tracking-[0.24em] text-stone-400">Role: {{ auth()->user()->role }}</div>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
-                <button type="submit" class="w-full text-left px-4 py-2 bg-blue-900 rounded hover:bg-blue-950 transition">Logout</button>
+                <button type="submit" class="w-full rounded-2xl bg-amber-400 px-4 py-3 text-left font-semibold text-stone-950 transition hover:bg-amber-300">Logout</button>
             </form>
         </div>
     </aside>
 
-    <main class="flex-grow p-8 w-full overflow-y-auto">
+    <main class="w-full flex-grow overflow-y-auto p-5 sm:p-8">
         @yield('content')
     </main>
+    </div>
 </body>
 </html>

@@ -2,9 +2,9 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Expenses</h1>
-        <a href="{{ route('owner.expenses.create') }}" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow-sm transition">
+    <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">Expenses</h1>
+        <a href="{{ route('owner.expenses.create') }}" class="rounded-2xl bg-red-600 px-4 py-3 font-bold text-white shadow-sm transition hover:bg-red-700">
             + Record Expense
         </a>
     </div>
@@ -15,7 +15,8 @@
         </div>
     @endif
 
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg border border-gray-100">
+    <div class="overflow-hidden rounded-[2rem] border border-gray-100 bg-white shadow">
+        <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
@@ -48,6 +49,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 @endsection

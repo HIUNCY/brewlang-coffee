@@ -2,9 +2,9 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Menu Management</h1>
-        <a href="{{ route('staff.menus.create') }}" class="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-lg shadow-sm transition">
+    <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">Menu Management</h1>
+        <a href="{{ route('staff.menus.create') }}" class="rounded-2xl bg-stone-900 px-4 py-3 font-bold text-white shadow-sm transition hover:bg-amber-900">
             + New Menu Item
         </a>
     </div>
@@ -15,7 +15,8 @@
         </div>
     @endif
 
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="overflow-hidden rounded-[2rem] bg-white shadow">
+        <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
@@ -71,6 +72,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 @endsection

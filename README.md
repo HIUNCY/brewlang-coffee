@@ -46,7 +46,7 @@ Make sure you have the following installed:
 
 **1. Clone the Repository:**
 ```bash
-git clone <repository-url>
+git clone [<repository-url>](https://github.com/HIUNCY/brewlang-coffee)
 cd brewlang
 ```
 

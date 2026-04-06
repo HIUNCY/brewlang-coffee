@@ -14,13 +14,7 @@
                     <h1 class="mt-3 text-4xl font-black tracking-tight text-stone-900">{{ $order->order_code }}</h1>
                     <p class="mt-2 text-stone-600">{{ $order->customer_name }} • Table {{ $order->table_number }}</p>
                 </div>
-                <span class="rounded-full px-4 py-2 text-sm font-bold
-                    {{ $order->status === 'unpaid' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                    {{ $order->status === 'paid' ? 'bg-blue-100 text-blue-800' : '' }}
-                    {{ $order->status === 'in_progress' ? 'bg-orange-100 text-orange-800' : '' }}
-                    {{ $order->status === 'all_done' ? 'bg-green-100 text-green-800' : '' }}">
-                    {{ $order->status_label }}
-                </span>
+                <x-order-status-badge :status="$order->status" class="px-4 py-2 text-sm" />
             </div>
 
             <div class="mt-6 grid gap-4 md:grid-cols-2">

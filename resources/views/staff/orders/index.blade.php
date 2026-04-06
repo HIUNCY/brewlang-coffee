@@ -41,13 +41,7 @@
                             </td>
                             <td class="px-6 py-4 text-sm text-stone-600">{{ $order->items->sum('quantity') }} items</td>
                             <td class="px-6 py-4">
-                                <span class="rounded-full px-3 py-1 text-xs font-bold
-                                    {{ $order->status === 'unpaid' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                                    {{ $order->status === 'paid' ? 'bg-blue-100 text-blue-800' : '' }}
-                                    {{ $order->status === 'in_progress' ? 'bg-orange-100 text-orange-800' : '' }}
-                                    {{ $order->status === 'all_done' ? 'bg-green-100 text-green-800' : '' }}">
-                                    {{ $order->status_label }}
-                                </span>
+                                <x-order-status-badge :status="$order->status" />
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <a href="{{ route('staff.orders.show', $order) }}" class="font-semibold text-stone-700 hover:text-amber-900">Open</a>
@@ -55,7 +49,12 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-12 text-center text-stone-500">No orders found.</td>
+                            <td colspan="5" class="px-6 py-8">
+                                <x-empty-state
+                                    title="No orders in the queue"
+                                    description="New customer orders will appear here once checkout is completed."
+                                />
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>

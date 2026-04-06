@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@php
-    $placeholder = asset('images/menu-placeholder.svg');
-@endphp
-
 @section('content')
 <div class="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
     <div class="flex flex-col gap-4 border-b border-stone-200 pb-8 sm:flex-row sm:items-end sm:justify-between">
@@ -33,32 +29,13 @@
 
     <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         @forelse($menus as $menu)
-            <article class="overflow-hidden rounded-[2rem] border border-stone-200 bg-white shadow-sm">
-                <img src="{{ $menu->photo_url ?? $placeholder }}" alt="{{ $menu->name }}" class="h-56 w-full object-cover">
-                <div class="p-6">
-                    <div class="flex items-start justify-between gap-4">
-                        <div>
-                            <p class="text-sm text-stone-500">{{ $menu->category?->name }}</p>
-                            <h2 class="mt-1 text-2xl font-bold text-stone-900">{{ $menu->name }}</h2>
-                        </div>
-                        <span class="rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-amber-900">
-                            IDR {{ number_format($menu->price, 0, ',', '.') }}
-                        </span>
-                    </div>
-                    <p class="mt-4 min-h-12 text-sm leading-6 text-stone-600">{{ $menu->description ?: 'Freshly made in our kitchen and coffee bar.' }}</p>
-                    <button
-                        type="button"
-                        class="js-add-to-cart mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-stone-900 px-4 py-3 font-semibold text-white transition hover:bg-amber-900"
-                        data-menu-id="{{ $menu->id }}"
-                    >
-                        Add to cart
-                    </button>
-                </div>
-            </article>
+            <x-menu-card :menu="$menu" />
         @empty
-            <div class="rounded-[2rem] border border-dashed border-stone-300 bg-stone-50 p-10 text-center text-stone-500 md:col-span-2 xl:col-span-3">
-                No active menu items are available in this category yet.
-            </div>
+            <x-empty-state
+                class="md:col-span-2 xl:col-span-3"
+                title="No active menu items yet"
+                description="There are no available menu items in this category right now. Try another category or check back later."
+            />
         @endforelse
     </div>
 </div>

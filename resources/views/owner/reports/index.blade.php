@@ -79,13 +79,23 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        @foreach($orders as $order)
-                        <tr>
-                            <td class="px-4 py-2 text-sm text-gray-500">{{ $order->created_at->format('Y-m-d H:i') }}</td>
-                            <td class="px-4 py-2 text-sm font-medium">#{{ $order->order_code }}</td>
-                            <td class="px-4 py-2 text-sm text-right font-medium text-emerald-600">Rp {{ number_format($order->total_price, 0, ',', '.') }}</td>
-                        </tr>
-                        @endforeach
+                        @forelse($orders as $order)
+                            <tr>
+                                <td class="px-4 py-2 text-sm text-gray-500">{{ $order->created_at->format('Y-m-d H:i') }}</td>
+                                <td class="px-4 py-2 text-sm font-medium">#{{ $order->order_code }}</td>
+                                <td class="px-4 py-2 text-sm text-right font-medium text-emerald-600">Rp {{ number_format($order->total_price, 0, ',', '.') }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="px-4 py-6">
+                                    <x-empty-state
+                                        class="p-6"
+                                        title="No income records"
+                                        description="There are no orders within the selected report period."
+                                    />
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -106,13 +116,23 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        @foreach($expenses as $exp)
-                        <tr>
-                            <td class="px-4 py-2 text-sm text-gray-500">{{ \Carbon\Carbon::parse($exp->expense_date)->format('Y-m-d') }}</td>
-                            <td class="px-4 py-2 text-sm font-medium">{{ $exp->title }}</td>
-                            <td class="px-4 py-2 text-sm text-right font-medium text-red-600">Rp {{ number_format($exp->amount, 0, ',', '.') }}</td>
-                        </tr>
-                        @endforeach
+                        @forelse($expenses as $exp)
+                            <tr>
+                                <td class="px-4 py-2 text-sm text-gray-500">{{ \Carbon\Carbon::parse($exp->expense_date)->format('Y-m-d') }}</td>
+                                <td class="px-4 py-2 text-sm font-medium">{{ $exp->title }}</td>
+                                <td class="px-4 py-2 text-sm text-right font-medium text-red-600">Rp {{ number_format($exp->amount, 0, ',', '.') }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="px-4 py-6">
+                                    <x-empty-state
+                                        class="p-6"
+                                        title="No expense records"
+                                        description="There are no expenses within the selected report period."
+                                    />
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

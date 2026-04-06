@@ -47,9 +47,12 @@
                     </div>
                 </article>
             @empty
-                <div class="rounded-[2rem] border border-dashed border-stone-300 bg-stone-50 p-12 text-center text-stone-500">
-                    Your cart is empty. Add items from the menu to start an order.
-                </div>
+                <x-empty-state
+                    title="Your cart is empty"
+                    description="Add items from the menu to start an order."
+                    action-label="Browse Menu"
+                    :action-href="route('menu')"
+                />
             @endforelse
         </div>
 

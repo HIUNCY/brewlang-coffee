@@ -67,7 +67,14 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">No menu items found.</td>
+                    <td colspan="6" class="px-6 py-8">
+                        <x-empty-state
+                            title="No menu items found"
+                            description="Create your first menu item to start selling products."
+                            :action-href="route('staff.menus.create')"
+                            action-label="Create Menu Item"
+                        />
+                    </td>
                 </tr>
                 @endforelse
             </tbody>

@@ -44,7 +44,14 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" class="px-6 py-12 text-center text-gray-500">No expenses recorded.</td>
+                    <td colspan="4" class="px-6 py-8">
+                        <x-empty-state
+                            title="No expenses recorded"
+                            description="Add your first expense entry to start tracking operational costs."
+                            :action-href="route('owner.expenses.create')"
+                            action-label="Record Expense"
+                        />
+                    </td>
                 </tr>
                 @endforelse
             </tbody>

@@ -21,13 +21,7 @@
                     <h1 class="mt-3 text-4xl font-black tracking-tight text-stone-900">{{ $order->order_code }}</h1>
                     <p class="mt-2 text-stone-600">{{ $order->customer_name }} • Table {{ $order->table_number }}</p>
                 </div>
-                <span class="rounded-full px-4 py-2 text-sm font-bold
-                    {{ $order->status === 'unpaid' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                    {{ $order->status === 'paid' ? 'bg-blue-100 text-blue-800' : '' }}
-                    {{ $order->status === 'in_progress' ? 'bg-orange-100 text-orange-800' : '' }}
-                    {{ $order->status === 'all_done' ? 'bg-green-100 text-green-800' : '' }}">
-                    {{ $order->status_label }}
-                </span>
+                <x-order-status-badge :status="$order->status" class="px-4 py-2 text-sm" />
             </div>
 
             <div class="mt-6 grid gap-4 md:grid-cols-2">
@@ -92,9 +86,11 @@
                     </button>
                 </form>
             @else
-                <div class="mt-6 rounded-2xl border border-dashed border-stone-300 bg-stone-50 p-5 text-center text-stone-500">
-                    This order is already completed.
-                </div>
+                <x-empty-state
+                    class="mt-6 p-5"
+                    title="Order already completed"
+                    description="This order has reached its final status and no further transitions are available."
+                />
             @endif
         </aside>
     </div>

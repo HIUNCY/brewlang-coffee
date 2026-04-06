@@ -63,7 +63,14 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="px-6 py-12 text-center text-gray-500">No staff accounts found.</td>
+                    <td colspan="5" class="px-6 py-8">
+                        <x-empty-state
+                            title="No staff accounts found"
+                            description="Create a staff account so the team can access the operational dashboard."
+                            :action-href="route('owner.staff.create')"
+                            action-label="Create Staff Account"
+                        />
+                    </td>
                 </tr>
                 @endforelse
             </tbody>

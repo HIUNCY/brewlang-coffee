@@ -13,7 +13,7 @@ class OrderStatusUpdatedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $order;
+    public Order $order;
 
     public function __construct(Order $order)
     {
@@ -23,7 +23,7 @@ class OrderStatusUpdatedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Order Status Update - Brewlang Coffee System',
+            subject: 'Order Status Update — Brewlang Coffee',
         );
     }
 

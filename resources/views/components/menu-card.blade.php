@@ -3,25 +3,40 @@
     'placeholder' => asset('images/menu-placeholder.jpg'),
 ])
 
-<article {{ $attributes->class('overflow-hidden rounded-[2rem] border border-stone-200 bg-white shadow-sm') }}>
-    <img src="{{ $menu->photo_url ?? $placeholder }}" alt="{{ $menu->name }}" class="h-56 w-full object-cover">
-    <div class="p-6">
-        <div class="flex items-start justify-between gap-4">
-            <div>
-                <p class="text-sm text-stone-500">{{ $menu->category?->name }}</p>
-                <h2 class="mt-1 text-2xl font-bold text-stone-900">{{ $menu->name }}</h2>
-            </div>
-            <span class="rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-amber-900">
-                IDR {{ number_format($menu->price, 0, ',', '.') }}
-            </span>
-        </div>
-        <p class="mt-4 min-h-12 text-sm leading-6 text-stone-600">{{ $menu->description ?: 'Freshly made in our kitchen and coffee bar.' }}</p>
+<article {{ $attributes->class('group overflow-hidden rounded-3xl border border-stone-800 bg-stone-900 transition duration-300 hover:border-amber-400/30 hover:shadow-xl hover:shadow-amber-400/5') }}>
+    {{-- Image --}}
+    <div class="relative h-52 overflow-hidden">
+        <img src="{{ $menu->photo_url ?? $placeholder }}"
+             alt="{{ $menu->name }}"
+             class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+        {{-- Gradient overlay --}}
+        <div class="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/20 to-transparent"></div>
+
+        {{-- Price badge --}}
+        <span class="absolute bottom-3 right-3 rounded-full bg-amber-400/10 border border-amber-400/25 px-3 py-1 text-xs font-bold text-amber-400 backdrop-blur-sm">
+            IDR {{ number_format($menu->price, 0, ',', '.') }}
+        </span>
+
+        {{-- Category badge --}}
+        @if($menu->category)
+        <span class="absolute top-3 left-3 rounded-full bg-stone-950/70 border border-stone-700/50 px-2.5 py-1 text-xs font-semibold text-stone-400 backdrop-blur-sm">
+            {{ $menu->category?->name }}
+        </span>
+        @endif
+    </div>
+
+    {{-- Content --}}
+    <div class="p-5">
+        <h2 class="text-lg font-bold text-stone-100 leading-snug">{{ $menu->name }}</h2>
+        <p class="mt-2 text-sm leading-6 text-stone-500 line-clamp-2">{{ $menu->description ?: 'Freshly made in our kitchen and coffee bar.' }}</p>
+
         <button
             type="button"
-            class="js-add-to-cart mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-stone-900 px-4 py-3 font-semibold text-white transition hover:bg-amber-900"
+            class="js-add-to-cart mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-amber-400 px-4 py-3 text-sm font-bold text-stone-950 transition duration-200 hover:bg-amber-300 active:scale-95"
             data-menu-id="{{ $menu->id }}"
         >
-            Add to cart
+            <i class="fa-solid fa-plus text-xs js-cart-icon"></i>
+            <span class="js-cart-text">Add to cart</span>
         </button>
     </div>
 </article>

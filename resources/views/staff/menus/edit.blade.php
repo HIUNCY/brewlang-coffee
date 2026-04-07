@@ -1,75 +1,100 @@
 @extends('layouts.staff')
 
 @section('content')
-<div class="max-w-2xl mx-auto">
-    <div class="mb-6 flex items-center gap-4">
-        <a href="{{ route('staff.menus.index') }}" class="text-gray-500 hover:text-gray-900">&larr; Back to Menu List</a>
-        <h1 class="text-3xl font-extrabold text-gray-900">Edit Menu Item</h1>
+<div class="max-w-2xl mx-auto animate-fade-in-up">
+    <div class="mb-6">
+        <a href="{{ route('staff.menus.index') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-stone-500 hover:text-amber-400 transition">
+            <i class="fa-solid fa-arrow-left text-xs"></i>
+            Back to Menu List
+        </a>
     </div>
 
-    @if ($errors->any())
-        <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r text-red-800 shadow-sm">
-            <ul class="list-disc pl-5">
-                @foreach ($errors->all() as $error)
+    <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-amber-400/70">Management</p>
+        <h1 class="font-display mt-2 text-3xl font-black text-stone-50 mb-6">Edit Menu Item</h1>
+    </div>
+
+    @if($errors->any())
+        <div class="alert-error-dark mb-6 flex items-start gap-3">
+            <i class="fa-solid fa-circle-exclamation text-red-400 mt-0.5 flex-shrink-0"></i>
+            <ul class="text-sm list-disc pl-2">
+                @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
         </div>
     @endif
 
-    <div class="bg-white shadow sm:rounded-lg">
-        <form action="{{ route('staff.menus.update', $menu) }}" method="POST" enctype="multipart/form-data" class="p-6">
+    <div class="rounded-2xl border border-stone-800 bg-stone-900 p-6">
+        <form action="{{ route('staff.menus.update', $menu) }}" method="POST" enctype="multipart/form-data" class="space-y-5">
             @csrf
             @method('PUT')
-            
-            <div class="space-y-6">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Name</label>
-                    <input type="text" name="name" value="{{ old('name', rtrim($menu->name, ' *')) }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Category</label>
-                    <select name="category_id" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                        <option value="">Select Category</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ old('category_id', $menu->category_id) == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Price (Rp)</label>
-                    <input type="number" name="price" value="{{ old('price', (int)$menu->price) }}" required min="0" step="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Description</label>
-                    <textarea name="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">{{ old('description', $menu->description) }}</textarea>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Current Photo</label>
-                    @if($menu->photo)
-                        <img src="{{ Storage::url($menu->photo) }}" class="mt-2 h-32 w-32 object-cover rounded shadow-sm border border-gray-100">
-                    @else
-                        <p class="mt-2 text-sm text-gray-500">No photo uploaded.</p>
-                    @endif
-                    
-                    <label class="block text-sm font-medium text-gray-700 mt-4">Replace Photo (Optional)</label>
-                    <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                    <p class="mt-1 text-xs text-gray-500">Max size 2MB (JPG, PNG, WEBP)</p>
-                </div>
-
-                <div class="flex items-center">
-                    <input type="checkbox" name="is_active" id="is_active" value="1" {{ old('is_active', $menu->is_active) ? 'checked' : '' }} class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                    <label for="is_active" class="ml-2 block text-sm text-gray-900">Make item active publicly</label>
-                </div>
+            <div>
+                <label class="mb-1.5 block text-xs font-semibold text-stone-500 uppercase tracking-wider">Name</label>
+                <input type="text" name="name" value="{{ old('name', rtrim($menu->name, ' *')) }}" required
+                    class="input-dark" placeholder="Menu item name">
             </div>
 
-            <div class="mt-8">
-                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    Update Menu Item
+            <div>
+                <label class="mb-1.5 block text-xs font-semibold text-stone-500 uppercase tracking-wider">Category</label>
+                <select name="category_id" required
+                    class="input-dark !appearance-none cursor-pointer">
+                    <option value="">Select Category</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ old('category_id', $menu->category_id) == $category->id ? 'selected' : '' }}
+                            class="bg-stone-800">
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
+                <label class="mb-1.5 block text-xs font-semibold text-stone-500 uppercase tracking-wider">Price (Rp)</label>
+                <input type="number" name="price" value="{{ old('price', (int)$menu->price) }}" required min="0" step="1"
+                    class="input-dark" placeholder="0">
+            </div>
+
+            <div>
+                <label class="mb-1.5 block text-xs font-semibold text-stone-500 uppercase tracking-wider">Description <span class="normal-case text-stone-700">(Optional)</span></label>
+                <textarea name="description" rows="3" class="input-dark resize-none"
+                    placeholder="Brief description of the item">{{ old('description', $menu->description) }}</textarea>
+            </div>
+
+            {{-- Photo --}}
+            <div>
+                <label class="mb-2 block text-xs font-semibold text-stone-500 uppercase tracking-wider">Current Photo</label>
+                @if($menu->photo)
+                    <img src="{{ Storage::url($menu->photo) }}" class="h-28 w-28 rounded-2xl object-cover border border-stone-700 mb-4">
+                @else
+                    <div class="h-28 w-28 rounded-2xl bg-stone-800 border border-dashed border-stone-700 flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-image text-stone-600 text-2xl"></i>
+                    </div>
+                @endif
+
+                <label class="mb-1.5 block text-xs font-semibold text-stone-500 uppercase tracking-wider">Replace Photo <span class="normal-case text-stone-700">(Optional)</span></label>
+                <input type="file" name="photo" accept="image/jpeg,image/png,image/webp"
+                    class="block w-full text-sm text-stone-500
+                           file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0
+                           file:text-sm file:font-bold file:bg-amber-400/10 file:text-amber-400
+                           file:border file:border-amber-400/20
+                           hover:file:bg-amber-400/20 transition cursor-pointer">
+                <p class="mt-1.5 text-xs text-stone-600">Max size 2MB (JPG, PNG, WEBP)</p>
+            </div>
+
+            {{-- Active toggle --}}
+            <div class="flex items-center gap-3 rounded-xl bg-stone-800 border border-stone-700 px-4 py-3">
+                <input type="checkbox" name="is_active" id="is_active" value="1"
+                    {{ old('is_active', $menu->is_active) ? 'checked' : '' }}
+                    class="h-4 w-4 rounded border-stone-600 bg-stone-700 text-amber-400 focus:ring-amber-400/30 cursor-pointer">
+                <label for="is_active" class="text-sm font-semibold text-stone-300 cursor-pointer">Make item publicly active</label>
+            </div>
+
+            <div class="pt-2">
+                <button type="submit" class="btn-primary glow-amber w-full !rounded-2xl">
+                    <i class="fa-solid fa-floppy-disk text-sm"></i>
+                    Save Changes
                 </button>
             </div>
         </form>

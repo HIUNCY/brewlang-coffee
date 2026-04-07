@@ -2,58 +2,61 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto">
-    <div class="flex flex-col gap-4 border-b border-stone-200 pb-8 lg:flex-row lg:items-end lg:justify-between">
+    <div class="flex flex-col gap-4 border-b border-stone-800 pb-6 mb-8 lg:flex-row lg:items-end lg:justify-between animate-fade-in-up">
         <div>
-            <p class="text-sm font-semibold uppercase tracking-[0.28em] text-amber-700">Orders</p>
-            <h1 class="mt-3 text-4xl font-black tracking-tight text-stone-900">Manage the current order queue.</h1>
+            <p class="text-xs font-semibold uppercase tracking-[0.3em] text-amber-400/70">Queue</p>
+            <h1 class="font-display mt-2 text-3xl font-black text-stone-50">Order Queue</h1>
         </div>
     </div>
 
     @if(session('success'))
-        <div class="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-emerald-800">{{ session('success') }}</div>
+        <div class="alert-success-dark mb-6 flex items-center gap-3 animate-fade-in-up">
+            <i class="fa-solid fa-circle-check text-emerald-400 flex-shrink-0"></i>
+            {{ session('success') }}
+        </div>
     @endif
     @if(session('error'))
-        <div class="mt-6 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-red-800">{{ session('error') }}</div>
+        <div class="alert-error-dark mb-6 flex items-center gap-3 animate-fade-in-up">
+            <i class="fa-solid fa-circle-exclamation text-red-400 flex-shrink-0"></i>
+            {{ session('error') }}
+        </div>
     @endif
 
-    <div class="mt-8 overflow-hidden rounded-[2rem] border border-stone-200 bg-white shadow-sm">
+    <div class="rounded-2xl border border-stone-800 bg-stone-900 overflow-hidden animate-fade-in-up delay-100">
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-stone-200">
-                <thead class="bg-stone-50">
+            <table class="min-w-full table-dark">
+                <thead>
                     <tr>
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">Order</th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">Customer</th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">Items</th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">Status</th>
-                        <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">Actions</th>
+                        <th>Order</th>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Status</th>
+                        <th class="text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-stone-100">
+                <tbody>
                     @forelse($orders as $order)
-                        <tr class="hover:bg-amber-50/40">
-                            <td class="px-6 py-4">
-                                <p class="font-bold text-amber-900">{{ $order->order_code }}</p>
-                                <p class="text-sm text-stone-500">{{ $order->created_at->format('d M Y H:i') }}</p>
+                        <tr>
+                            <td>
+                                <p class="font-bold text-amber-400">{{ $order->order_code }}</p>
+                                <p class="text-xs text-stone-600 mt-0.5">{{ $order->created_at->format('d M Y H:i') }}</p>
                             </td>
-                            <td class="px-6 py-4">
-                                <p class="font-semibold text-stone-900">{{ $order->customer_name }}</p>
-                                <p class="text-sm text-stone-500">Table {{ $order->table_number }}</p>
+                            <td>
+                                <p class="font-semibold text-stone-200">{{ $order->customer_name }}</p>
+                                <p class="text-xs text-stone-600 mt-0.5">Table {{ $order->table_number }}</p>
                             </td>
-                            <td class="px-6 py-4 text-sm text-stone-600">{{ $order->items->sum('quantity') }} items</td>
-                            <td class="px-6 py-4">
-                                <x-order-status-badge :status="$order->status" />
-                            </td>
-                            <td class="px-6 py-4 text-right">
-                                <a href="{{ route('staff.orders.show', $order) }}" class="font-semibold text-stone-700 hover:text-amber-900">Open</a>
+                            <td class="text-stone-500 text-sm">{{ $order->items->sum('quantity') }} items</td>
+                            <td><x-order-status-badge :status="$order->status" /></td>
+                            <td class="text-right">
+                                <a href="{{ route('staff.orders.show', $order) }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-stone-400 hover:text-amber-400 transition">
+                                    Open <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </a>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-8">
-                                <x-empty-state
-                                    title="No orders in the queue"
-                                    description="New customer orders will appear here once checkout is completed."
-                                />
+                            <td colspan="5" class="py-8">
+                                <x-empty-state title="No orders in the queue" description="New customer orders will appear here once checkout is completed." />
                             </td>
                         </tr>
                     @endforelse

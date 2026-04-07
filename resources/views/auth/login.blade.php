@@ -3,87 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Brewlang</title>
+    <title>Login — Brewlang</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-50 flex items-center justify-center min-h-screen relative overflow-hidden">
-    <!-- Background Decor -->
-    <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none opacity-40">
-        <div class="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-amber-300 blur-3xl mix-blend-multiply"></div>
-        <div class="absolute top-[20%] -right-[10%] w-[40%] h-[60%] rounded-full bg-orange-200 blur-3xl mix-blend-multiply"></div>
+<body class="bg-stone-950 text-stone-50 flex items-center justify-center min-h-screen relative overflow-hidden">
+
+    {{-- Ambient background --}}
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-[-15%] left-[-10%] w-[50%] h-[55%] rounded-full bg-amber-900/20 blur-[120px]"></div>
+        <div class="absolute bottom-[-15%] right-[-5%] w-[45%] h-[50%] rounded-full bg-amber-800/10 blur-[100px]"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(120,53,15,0.08),transparent_65%)]"></div>
     </div>
 
-    <div class="w-full max-w-md z-10 p-4">
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border border-white/50">
-            <!-- Header Section -->
-            <div class="bg-gradient-to-br from-amber-800 to-amber-950 p-8 text-center relative border-b-4 border-amber-600">
-                <a href="{{ route('home') }}" class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 mb-4 shadow-xl hover:scale-105 transition-transform">
-                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+    <div class="relative w-full max-w-sm z-10 px-4 py-8 animate-scale-in">
+
+        <div class="rounded-3xl border border-stone-800 bg-stone-900/90 overflow-hidden dark-glass shadow-2xl">
+
+            {{-- Card Header --}}
+            <div class="bg-gradient-to-br from-amber-900/80 to-stone-950 border-b border-stone-800 p-8 text-center">
+                <a href="{{ route('home') }}" class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-amber-400/10 border border-amber-400/20 mb-5 transition hover:bg-amber-400/20">
+                    <i class="fa-solid fa-mug-hot text-amber-400 text-xl"></i>
                 </a>
-                <h1 class="text-3xl font-extrabold text-white tracking-tight">Brewlang</h1>
-                <p class="text-amber-200 mt-2 text-sm font-medium">Coffee Management System</p>
+                <h1 class="font-display text-2xl font-black text-stone-50">Brewlang</h1>
+                <p class="mt-1 text-sm text-stone-500">Management System</p>
             </div>
 
-            <!-- Form Section -->
-            <div class="p-8">
-                @if ($errors->any())
-                    <div id="alert-border-2" class="flex items-center p-4 mb-6 text-red-800 border-l-4 border-red-500 bg-red-50 rounded-r-lg" role="alert">
-                        <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/></svg>
-                        <div class="ms-3 text-sm font-medium">
-                            @foreach ($errors->all() as $error)
-                                {{ $error }}<br>
+            {{-- Form --}}
+            <div class="p-7">
+                {{-- Errors --}}
+                @if($errors->any())
+                    <div class="alert-error-dark mb-5 flex items-start gap-3">
+                        <i class="fa-solid fa-circle-exclamation text-red-400 mt-0.5 flex-shrink-0"></i>
+                        <div class="text-sm">
+                            @foreach($errors->all() as $error)
+                                <p>{{ $error }}</p>
                             @endforeach
                         </div>
-                        <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8"  data-dismiss-target="#alert-border-2" aria-label="Close">
-                            <span class="sr-only">Dismiss</span>
-                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/></svg>
-                        </button>
                     </div>
                 @endif
-                
-                @if (session('error'))
-                    <div id="alert-1" class="flex items-center p-4 mb-6 text-red-800 rounded-lg bg-red-50 border border-red-100" role="alert">
-                        <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/></svg>
-                        <div class="ms-3 text-sm font-medium">{{ session('error') }}</div>
-                        <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8" data-dismiss-target="#alert-1" aria-label="Close">
-                            <span class="sr-only">Close</span>
-                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/></svg>
-                        </button>
+                @if(session('error'))
+                    <div class="alert-error-dark mb-5 flex items-center gap-3">
+                        <i class="fa-solid fa-circle-exclamation text-red-400 flex-shrink-0"></i>
+                        <p class="text-sm">{{ session('error') }}</p>
                     </div>
                 @endif
 
-                <form action="{{ route('login') }}" method="POST" class="space-y-6 flex flex-col">
+                <form action="{{ route('login') }}" method="POST" class="space-y-4">
                     @csrf
+
+                    {{-- Email --}}
                     <div>
-                        <label for="email" class="block mb-2 text-sm font-bold text-gray-900">Email Address</label>
+                        <label for="email" class="mb-1.5 block text-xs font-semibold text-stone-500 uppercase tracking-wider">Email Address</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16"><path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/><path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/></svg>
+                                <i class="fa-solid fa-envelope text-stone-600 text-xs"></i>
                             </div>
-                            <input type="email" name="email" id="email" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-amber-500 focus:border-amber-500 block w-full pl-10 p-3 shadow-sm transition-all focus:shadow-md" required value="{{ old('email') }}" placeholder="admin@brewlang.loc" autofocus>
+                            <input type="email" name="email" id="email"
+                                class="input-dark !pl-10"
+                                required value="{{ old('email') }}"
+                                placeholder="admin@brewlang.loc" autofocus>
                         </div>
                     </div>
+
+                    {{-- Password --}}
                     <div>
-                        <label for="password" class="block mb-2 text-sm font-bold text-gray-900">Password</label>
+                        <label for="password" class="mb-1.5 block text-xs font-semibold text-stone-500 uppercase tracking-wider">Password</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20"><path d="M14 7h-1.5V4.5a4.5 4.5 0 1 0-9 0V7H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Zm-5 8a1 1 0 1 1-2 0v-3a1 1 0 1 1 2 0v3Zm1.5-8h-5V4.5a2.5 2.5 0 1 1 5 0V7Z"/></svg>
+                                <i class="fa-solid fa-lock text-stone-600 text-xs"></i>
                             </div>
-                            <input type="password" name="password" id="password" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-amber-500 focus:border-amber-500 block w-full pl-10 p-3 shadow-sm transition-all focus:shadow-md" required placeholder="••••••••">
+                            <input type="password" name="password" id="password"
+                                class="input-dark !pl-10"
+                                required placeholder="••••••••">
                         </div>
                     </div>
-                    <button type="submit" class="w-full text-white bg-amber-800 hover:bg-amber-900 focus:ring-4 focus:outline-none focus:ring-amber-300 font-bold rounded-xl text-lg px-5 py-3.5 text-center shadow-lg shadow-amber-800/40 transition-all hover:shadow-xl hover:-translate-y-0.5 mt-4">
+
+                    {{-- Submit --}}
+                    <button type="submit" class="btn-primary glow-amber w-full !rounded-2xl mt-2">
+                        <i class="fa-solid fa-right-to-bracket text-sm"></i>
                         Secure Login
                     </button>
-                    <div class="text-sm font-medium text-gray-500 text-center mt-6">
-                        Return to <a href="{{ route('home') }}" class="text-amber-700 hover:underline hover:text-amber-800 font-bold">Storefront</a>
+
+                    <div class="text-center pt-2">
+                        <a href="{{ route('home') }}" class="text-xs text-stone-600 hover:text-amber-400 transition">
+                            <i class="fa-solid fa-arrow-left text-[10px] mr-1"></i>
+                            Return to Storefront
+                        </a>
                     </div>
                 </form>
             </div>
         </div>
-        <div class="text-center mt-6 text-sm text-gray-400 font-medium tracking-wide">
-            &copy; {{ date('Y') }} Brewlang Internal System
-        </div>
+
+        <p class="text-center mt-5 text-xs text-stone-700">&copy; {{ date('Y') }} Brewlang Internal System</p>
     </div>
+
 </body>
 </html>

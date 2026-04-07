@@ -2,96 +2,121 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto">
-    <div class="flex flex-col gap-4 border-b border-stone-200 pb-8 lg:flex-row lg:items-end lg:justify-between">
+
+    {{-- Header --}}
+    <div class="flex flex-col gap-4 border-b border-stone-800 pb-6 mb-8 lg:flex-row lg:items-end lg:justify-between animate-fade-in-up">
         <div>
-            <p class="text-sm font-semibold uppercase tracking-[0.28em] text-amber-700">Staff Dashboard</p>
-            <h1 class="mt-3 text-4xl font-black tracking-tight text-stone-900">Monitor the cafe floor in one place.</h1>
-            <p class="mt-3 max-w-2xl text-stone-600">Track today’s orders, review the recent queue, and keep an eye on category performance.</p>
+            <p class="text-xs font-semibold uppercase tracking-[0.3em] text-amber-400/70">Staff Dashboard</p>
+            <h1 class="font-display mt-2 text-3xl font-black text-stone-50">Monitor the café floor.</h1>
+            <p class="mt-1 text-sm text-stone-500">Track today's orders, queue status, and category performance.</p>
         </div>
-        <a href="{{ route('staff.orders.index') }}" class="inline-flex rounded-full bg-stone-900 px-5 py-3 font-semibold text-white transition hover:bg-amber-900">
+        <a href="{{ route('staff.orders.index') }}" class="btn-primary !rounded-xl glow-amber flex-shrink-0">
+            <i class="fa-solid fa-receipt text-sm"></i>
             Open Order Queue
         </a>
     </div>
 
-    <div class="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <div class="rounded-[2rem] border border-stone-200 bg-white p-5 shadow-sm">
-            <p class="text-sm font-medium text-stone-500">Total Orders</p>
-            <p class="mt-3 text-4xl font-black text-stone-900">{{ $data['total_orders'] }}</p>
+    {{-- Metric Cards --}}
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-8 animate-fade-in-up delay-100">
+        <div class="rounded-2xl border border-stone-800 bg-stone-900 p-5">
+            <div class="flex items-start justify-between">
+                <p class="text-xs font-semibold uppercase tracking-wider text-stone-500">Total Orders</p>
+                <div class="w-9 h-9 rounded-xl bg-stone-800 flex items-center justify-center">
+                    <i class="fa-solid fa-receipt text-stone-400 text-sm"></i>
+                </div>
+            </div>
+            <p class="mt-3 text-3xl font-black text-stone-100">{{ $data['total_orders'] }}</p>
         </div>
-        <div class="rounded-[2rem] border border-stone-200 bg-white p-5 shadow-sm">
-            <p class="text-sm font-medium text-stone-500">Orders Today</p>
-            <p class="mt-3 text-4xl font-black text-amber-900">{{ $data['orders_today'] }}</p>
+        <div class="rounded-2xl border border-stone-800 bg-stone-900 p-5">
+            <div class="flex items-start justify-between">
+                <p class="text-xs font-semibold uppercase tracking-wider text-stone-500">Orders Today</p>
+                <div class="w-9 h-9 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center">
+                    <i class="fa-solid fa-calendar-day text-amber-400 text-sm"></i>
+                </div>
+            </div>
+            <p class="mt-3 text-3xl font-black text-amber-400">{{ $data['orders_today'] }}</p>
         </div>
-        <div class="rounded-[2rem] border border-stone-200 bg-white p-5 shadow-sm">
-            <p class="text-sm font-medium text-stone-500">In Progress</p>
-            <p class="mt-3 text-4xl font-black text-orange-600">{{ $data['orders_in_progress'] }}</p>
+        <div class="rounded-2xl border border-orange-400/20 bg-orange-400/5 p-5">
+            <div class="flex items-start justify-between">
+                <p class="text-xs font-semibold uppercase tracking-wider text-orange-400/60">In Progress</p>
+                <div class="w-9 h-9 rounded-xl bg-orange-400/10 border border-orange-400/20 flex items-center justify-center">
+                    <i class="fa-solid fa-fire text-orange-400 text-sm animate-status-pulse"></i>
+                </div>
+            </div>
+            <p class="mt-3 text-3xl font-black text-orange-400">{{ $data['orders_in_progress'] }}</p>
         </div>
-        <div class="rounded-[2rem] border border-stone-200 bg-white p-5 shadow-sm">
-            <p class="text-sm font-medium text-stone-500">Unpaid</p>
-            <p class="mt-3 text-4xl font-black text-yellow-600">{{ $data['orders_unpaid'] }}</p>
+        <div class="rounded-2xl border border-yellow-400/20 bg-yellow-400/5 p-5">
+            <div class="flex items-start justify-between">
+                <p class="text-xs font-semibold uppercase tracking-wider text-yellow-400/60">Unpaid</p>
+                <div class="w-9 h-9 rounded-xl bg-yellow-400/10 border border-yellow-400/20 flex items-center justify-center">
+                    <i class="fa-solid fa-clock text-yellow-400 text-sm"></i>
+                </div>
+            </div>
+            <p class="mt-3 text-3xl font-black text-yellow-400">{{ $data['orders_unpaid'] }}</p>
         </div>
     </div>
 
-    <div class="mt-8 grid gap-8 xl:grid-cols-[1.3fr_0.7fr]">
-        <section class="rounded-[2rem] border border-stone-200 bg-white shadow-sm">
-            <div class="border-b border-stone-200 px-6 py-5">
-                <h2 class="text-xl font-bold text-stone-900">Recent Orders</h2>
+    {{-- Tables --}}
+    <div class="grid gap-6 xl:grid-cols-[1.3fr_0.7fr] animate-fade-in-up delay-200">
+
+        {{-- Recent Orders --}}
+        <div class="rounded-2xl border border-stone-800 bg-stone-900 overflow-hidden">
+            <div class="flex items-center justify-between px-5 py-4 border-b border-stone-800">
+                <h2 class="font-semibold text-stone-200">
+                    <i class="fa-solid fa-receipt text-amber-400/60 mr-2 text-sm"></i>
+                    Recent Orders
+                </h2>
+                <a href="{{ route('staff.orders.index') }}" class="text-xs text-stone-500 hover:text-amber-400 transition">View all</a>
             </div>
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-stone-200">
-                    <thead class="bg-stone-50">
+                <table class="min-w-full table-dark">
+                    <thead>
                         <tr>
-                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">Code</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">Customer</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">Status</th>
-                            <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">Total</th>
+                            <th>Code</th>
+                            <th>Customer</th>
+                            <th>Status</th>
+                            <th class="text-right">Total</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-stone-100">
+                    <tbody>
                         @forelse($data['recent_orders'] as $order)
-                            <tr class="hover:bg-amber-50/40">
-                                <td class="px-6 py-4">
-                                    <a href="{{ route('staff.orders.show', $order) }}" class="font-bold text-amber-900 hover:underline">{{ $order->order_code }}</a>
+                            <tr>
+                                <td>
+                                    <a href="{{ route('staff.orders.show', $order) }}" class="font-bold text-amber-400 hover:text-amber-300 transition">{{ $order->order_code }}</a>
                                 </td>
-                                <td class="px-6 py-4 text-stone-700">{{ $order->customer_name }}</td>
-                                <td class="px-6 py-4">
-                                    <span class="rounded-full px-3 py-1 text-xs font-bold
-                                        {{ $order->status === 'unpaid' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                                        {{ $order->status === 'paid' ? 'bg-blue-100 text-blue-800' : '' }}
-                                        {{ $order->status === 'in_progress' ? 'bg-orange-100 text-orange-800' : '' }}
-                                        {{ $order->status === 'all_done' ? 'bg-green-100 text-green-800' : '' }}">
-                                        {{ $order->status_label }}
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 text-right font-semibold text-stone-900">IDR {{ number_format($order->total_price, 0, ',', '.') }}</td>
+                                <td class="text-stone-400">{{ $order->customer_name }}</td>
+                                <td><x-order-status-badge :status="$order->status" /></td>
+                                <td class="text-right font-semibold text-stone-300">IDR {{ number_format($order->total_price, 0, ',', '.') }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="px-6 py-12 text-center text-stone-500">No recent orders available.</td>
+                                <td colspan="4" class="py-8 text-center text-stone-600 text-sm">No recent orders available.</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
-        </section>
+        </div>
 
-        <section class="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-sm">
-            <h2 class="text-xl font-bold text-stone-900">Sales by Category</h2>
-            <div class="mt-6 space-y-4">
+        {{-- Sales by Category --}}
+        <div class="rounded-2xl border border-stone-800 bg-stone-900 p-5">
+            <h2 class="font-semibold text-stone-200 mb-5">
+                <i class="fa-solid fa-chart-bar text-amber-400/60 mr-2 text-sm"></i>
+                Sales by Category
+            </h2>
+            <div class="space-y-3">
                 @forelse($data['sales_by_category'] as $category => $total)
-                    <div class="rounded-2xl bg-stone-50 p-4">
+                    <div class="rounded-xl bg-stone-800 border border-stone-700 p-4">
                         <div class="flex items-center justify-between gap-4">
-                            <p class="font-semibold text-stone-800">{{ $category }}</p>
-                            <p class="font-bold text-amber-900">IDR {{ number_format($total, 0, ',', '.') }}</p>
+                            <p class="font-semibold text-stone-300 text-sm truncate">{{ $category }}</p>
+                            <p class="font-bold text-amber-400 text-sm flex-shrink-0">IDR {{ number_format($total, 0, ',', '.') }}</p>
                         </div>
                     </div>
                 @empty
-                    <div class="rounded-2xl border border-dashed border-stone-300 bg-stone-50 p-6 text-center text-stone-500">
-                        Sales data will appear after orders are created.
-                    </div>
+                    <x-empty-state title="No data yet" description="Sales data will appear after orders." />
                 @endforelse
             </div>
-        </section>
+        </div>
     </div>
 </div>
 @endsection

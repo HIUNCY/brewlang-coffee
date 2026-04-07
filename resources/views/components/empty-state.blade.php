@@ -5,13 +5,16 @@
     'actionHref' => null,
 ])
 
-<div {{ $attributes->class('rounded-[2rem] border border-dashed border-stone-300 bg-stone-50 p-10 text-center') }}>
-    <div class="mx-auto max-w-xl">
-        <p class="text-lg font-bold text-stone-900">{{ $title }}</p>
-        <p class="mt-3 text-sm leading-6 text-stone-600">{{ $description }}</p>
+<div {{ $attributes->class('rounded-2xl border border-dashed border-stone-700 bg-stone-900/50 p-10 text-center') }}>
+    <div class="mx-auto max-w-xs">
+        <div class="mx-auto mb-4 w-12 h-12 rounded-2xl bg-stone-800 border border-stone-700 flex items-center justify-center">
+            <i class="fa-regular fa-circle-dot text-stone-500 text-lg"></i>
+        </div>
+        <p class="text-base font-bold text-stone-300">{{ $title }}</p>
+        <p class="mt-2 text-sm leading-6 text-stone-600">{{ $description }}</p>
 
         @if($actionLabel && $actionHref)
-            <a href="{{ $actionHref }}" class="mt-6 inline-flex rounded-full border border-stone-300 px-5 py-3 text-sm font-semibold text-stone-700 transition hover:border-amber-300 hover:text-amber-900">
+            <a href="{{ $actionHref }}" class="btn-secondary mt-6 !text-sm !py-2 !px-4">
                 {{ $actionLabel }}
             </a>
         @endif

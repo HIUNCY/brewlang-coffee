@@ -2,47 +2,42 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto">
-    <div class="flex flex-col gap-4 border-b border-stone-200 pb-8 lg:flex-row lg:items-end lg:justify-between">
+    <div class="flex flex-col gap-4 border-b border-stone-800 pb-6 mb-8 lg:flex-row lg:items-end lg:justify-between animate-fade-in-up">
         <div>
-            <p class="text-sm font-semibold uppercase tracking-[0.28em] text-amber-700">Orders</p>
-            <h1 class="mt-3 text-4xl font-black tracking-tight text-stone-900">Review all customer orders.</h1>
+            <p class="text-xs font-semibold uppercase tracking-[0.3em] text-amber-400/70">Management</p>
+            <h1 class="font-display mt-2 text-3xl font-black text-stone-50">All Orders</h1>
         </div>
     </div>
 
-    <div class="mt-8 overflow-hidden rounded-[2rem] border border-stone-200 bg-white shadow-sm">
+    <div class="rounded-2xl border border-stone-800 bg-stone-900 overflow-hidden animate-fade-in-up delay-100">
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-stone-200">
-                <thead class="bg-stone-50">
+            <table class="min-w-full table-dark">
+                <thead>
                     <tr>
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">Order</th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">Customer</th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">Status</th>
-                        <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">Total</th>
+                        <th>Order</th>
+                        <th>Customer</th>
+                        <th>Status</th>
+                        <th class="text-right">Total</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-stone-100">
+                <tbody>
                     @forelse($orders as $order)
-                        <tr class="hover:bg-amber-50/40">
-                            <td class="px-6 py-4">
-                                <a href="{{ route('owner.orders.show', $order) }}" class="font-bold text-amber-900 hover:underline">{{ $order->order_code }}</a>
-                                <p class="mt-1 text-sm text-stone-500">{{ $order->created_at->format('d M Y H:i') }}</p>
+                        <tr>
+                            <td>
+                                <a href="{{ route('owner.orders.show', $order) }}" class="font-bold text-amber-400 hover:text-amber-300 transition">{{ $order->order_code }}</a>
+                                <p class="mt-0.5 text-xs text-stone-600">{{ $order->created_at->format('d M Y H:i') }}</p>
                             </td>
-                            <td class="px-6 py-4">
-                                <p class="font-semibold text-stone-900">{{ $order->customer_name }}</p>
-                                <p class="text-sm text-stone-500">Table {{ $order->table_number }}</p>
+                            <td>
+                                <p class="font-semibold text-stone-200">{{ $order->customer_name }}</p>
+                                <p class="text-xs text-stone-600 mt-0.5">Table {{ $order->table_number }}</p>
                             </td>
-                            <td class="px-6 py-4">
-                                <x-order-status-badge :status="$order->status" />
-                            </td>
-                            <td class="px-6 py-4 text-right font-semibold text-stone-900">IDR {{ number_format($order->total_price, 0, ',', '.') }}</td>
+                            <td><x-order-status-badge :status="$order->status" /></td>
+                            <td class="text-right font-semibold text-stone-200">IDR {{ number_format($order->total_price, 0, ',', '.') }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="px-6 py-8">
-                                <x-empty-state
-                                    title="No orders available"
-                                    description="Customer orders will show up here after checkout."
-                                />
+                            <td colspan="4" class="py-8">
+                                <x-empty-state title="No orders available" description="Customer orders will show up here after checkout." />
                             </td>
                         </tr>
                     @endforelse

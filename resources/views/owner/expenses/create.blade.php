@@ -1,50 +1,55 @@
 @extends('layouts.owner')
 
 @section('content')
-<div class="max-w-2xl mx-auto">
-    <div class="mb-6 flex items-center gap-4">
-        <a href="{{ route('owner.expenses.index') }}" class="text-gray-500 hover:text-gray-900">&larr; Back to Expenses</a>
-        <h1 class="text-3xl font-extrabold text-gray-900">Record Expense</h1>
+<div class="max-w-2xl mx-auto animate-fade-in-up">
+    <div class="mb-6 flex items-center gap-3">
+        <a href="{{ route('owner.expenses.index') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-stone-500 hover:text-amber-400 transition">
+            <i class="fa-solid fa-arrow-left text-xs"></i>
+            Back to Expenses
+        </a>
     </div>
 
-    @if ($errors->any())
-        <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r text-red-800 shadow-sm">
-            <ul class="list-disc pl-5">
-                @foreach ($errors->all() as $error)
+    <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-amber-400/70">Finance</p>
+        <h1 class="font-display mt-2 text-3xl font-black text-stone-50 mb-6">Record Expense</h1>
+    </div>
+
+    @if($errors->any())
+        <div class="alert-error-dark mb-6 flex items-start gap-3">
+            <i class="fa-solid fa-circle-exclamation text-red-400 mt-0.5 flex-shrink-0"></i>
+            <ul class="text-sm list-disc pl-2">
+                @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
         </div>
     @endif
 
-    <div class="bg-white shadow sm:rounded-lg border border-gray-100">
-        <form action="{{ route('owner.expenses.store') }}" method="POST" class="p-6">
+    <div class="rounded-2xl border border-stone-800 bg-stone-900 p-6">
+        <form action="{{ route('owner.expenses.store') }}" method="POST" class="space-y-5">
             @csrf
-            
-            <div class="space-y-6">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Expense Title</label>
-                    <input type="text" name="title" value="{{ old('title') }}" required placeholder="e.g. Coffee Beans Restock" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Description (Optional)</label>
-                    <textarea name="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">{{ old('description') }}</textarea>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Amount (Rp)</label>
-                    <input type="number" name="amount" value="{{ old('amount') }}" required min="0.01" step="0.01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Expense Date</label>
-                    <input type="date" name="expense_date" value="{{ old('expense_date', date('Y-m-d')) }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                </div>
+            <div>
+                <label class="mb-1.5 block text-xs font-semibold text-stone-500 uppercase tracking-wider">Expense Title</label>
+                <input type="text" name="title" value="{{ old('title') }}" required
+                    class="input-dark" placeholder="e.g. Coffee Beans Restock">
             </div>
-
-            <div class="mt-8">
-                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+            <div>
+                <label class="mb-1.5 block text-xs font-semibold text-stone-500 uppercase tracking-wider">Description <span class="normal-case text-stone-700">(Optional)</span></label>
+                <textarea name="description" rows="3" class="input-dark resize-none" placeholder="Short description...">{{ old('description') }}</textarea>
+            </div>
+            <div>
+                <label class="mb-1.5 block text-xs font-semibold text-stone-500 uppercase tracking-wider">Amount (Rp)</label>
+                <input type="number" name="amount" value="{{ old('amount') }}" required min="0.01" step="0.01"
+                    class="input-dark" placeholder="0">
+            </div>
+            <div>
+                <label class="mb-1.5 block text-xs font-semibold text-stone-500 uppercase tracking-wider">Expense Date</label>
+                <input type="date" name="expense_date" value="{{ old('expense_date', date('Y-m-d')) }}" required
+                    class="input-dark">
+            </div>
+            <div class="pt-2">
+                <button type="submit" class="btn-primary glow-amber w-full !rounded-2xl">
+                    <i class="fa-solid fa-floppy-disk text-sm"></i>
                     Record Expense
                 </button>
             </div>

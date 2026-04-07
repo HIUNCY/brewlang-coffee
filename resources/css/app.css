@@ -1,2 +1,339 @@
+/* Google Fonts — must be first */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 @import "tailwindcss";
 @plugin "flowbite/plugin";
+
+/* ============================================================
+   BREWLANG COFFEE — Dark & Moody Design System
+   ============================================================ */
+
+/* ============================================================
+   Design Tokens
+   ============================================================ */
+:root {
+    /* Colors */
+    --color-base:       #0c0a09; /* stone-950 */
+    --color-surface:    #1c1917; /* stone-900 */
+    --color-elevated:   #292524; /* stone-800 */
+    --color-border:     #44403c; /* stone-700 */
+    --color-border-subtle: #57534e; /* stone-600 */
+
+    --color-accent:     #fbbf24; /* amber-400 */
+    --color-accent-dim: #d97706; /* amber-600 */
+    --color-accent-deep:#78350f; /* amber-900 */
+
+    --color-text:       #fafaf9; /* stone-50 */
+    --color-text-muted: #a8a29e; /* stone-400 */
+    --color-text-dim:   #78716c; /* stone-500 */
+}
+
+/* ============================================================
+   Base Styles
+   ============================================================ */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--color-base);
+    color: var(--color-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, .font-display {
+    font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* ============================================================
+   Utility Classes
+   ============================================================ */
+
+/* Glassmorphism — Dark */
+.dark-glass {
+    background: rgba(28, 25, 23, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Glassmorphism — Nav (slightly lighter) */
+.glass-nav {
+    background: rgba(12, 10, 9, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Amber Glow — subtle outer glow */
+.glow-amber {
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0),
+                0 4px 20px rgba(251, 191, 36, 0.15),
+                0 8px 40px rgba(251, 191, 36, 0.08);
+}
+.glow-amber:hover {
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0),
+                0 4px 24px rgba(251, 191, 36, 0.3),
+                0 8px 48px rgba(251, 191, 36, 0.12);
+}
+
+/* Gradient text */
+.text-gradient-amber {
+    background: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Cozy border — low-contrast subtle borders */
+.cozy-border {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ============================================================
+   Animations & Keyframes
+   ============================================================ */
+
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes cart-bounce {
+    0%, 100% { transform: scale(1); }
+    30%       { transform: scale(1.35); }
+    60%       { transform: scale(0.9); }
+}
+
+@keyframes status-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.5; }
+}
+
+@keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(251,191,36,0.3); }
+    50%       { box-shadow: 0 0 20px rgba(251,191,36,0.6), 0 0 40px rgba(251,191,36,0.2); }
+}
+
+.animate-fade-in-up {
+    animation: fade-in-up 0.5s ease both;
+}
+
+.animate-scale-in {
+    animation: scale-in 0.3s ease both;
+}
+
+.animate-cart-bounce {
+    animation: cart-bounce 0.4s ease;
+}
+
+.animate-status-pulse {
+    animation: status-pulse 2s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+    animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Staggered delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+
+/* ============================================================
+   Form Input Dark Styles
+   ============================================================ */
+
+.input-dark {
+    background-color: var(--color-elevated);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    font-size: 0.875rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+.input-dark::placeholder {
+    color: var(--color-text-dim);
+}
+
+.input-dark:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.12);
+}
+
+/* ============================================================
+   Sidebar Navigation
+   ============================================================ */
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #a8a29e; /* stone-400 */
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    border-left: 2px solid transparent;
+    text-decoration: none;
+}
+
+.sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fafaf9;
+}
+
+.sidebar-link.active {
+    background: rgba(251, 191, 36, 0.08);
+    color: #fbbf24;
+    border-left-color: #fbbf24;
+}
+
+/* ============================================================
+   Table Dark Styles
+   ============================================================ */
+
+.table-dark thead th {
+    background-color: var(--color-elevated);
+    color: var(--color-text-muted);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    padding: 1rem 1.5rem;
+    text-align: left;
+}
+
+.table-dark tbody tr {
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-elevated);
+    transition: background 0.15s;
+}
+
+.table-dark tbody tr:hover {
+    background-color: var(--color-elevated);
+}
+
+.table-dark tbody td {
+    padding: 1rem 1.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text);
+}
+
+/* ============================================================
+   Alert / Notification Dark Styles
+   ============================================================ */
+
+.alert-success-dark {
+    background: rgba(52, 211, 153, 0.08);
+    border: 1px solid rgba(52, 211, 153, 0.25);
+    color: #6ee7b7;
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+}
+
+.alert-error-dark {
+    background: rgba(248, 113, 113, 0.08);
+    border: 1px solid rgba(248, 113, 113, 0.25);
+    color: #fca5a5;
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+}
+
+/* ============================================================
+   Button Variants
+   ============================================================ */
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    background-color: #fbbf24;
+    color: #0c0a09;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(251,191,36,0.2);
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    background-color: #f59e0b;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 32px rgba(251,191,36,0.35);
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    background-color: transparent;
+    color: #a8a29e;
+    border: 1px solid #44403c;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    text-decoration: none;
+}
+
+.btn-secondary:hover {
+    border-color: #fbbf24;
+    color: #fbbf24;
+    background: rgba(251,191,36,0.05);
+}
+
+.btn-danger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    background: rgba(248,113,113,0.08);
+    color: #f87171;
+    border: 1px solid rgba(248,113,113,0.25);
+    transition: background 0.2s, color 0.2s;
+    text-decoration: none;
+}
+
+.btn-danger:hover {
+    background: rgba(248,113,113,0.15);
+    color: #fca5a5;
+}

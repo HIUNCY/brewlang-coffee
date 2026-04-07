@@ -1,46 +1,49 @@
 @extends('layouts.owner')
 
 @section('content')
-<div class="max-w-2xl mx-auto">
-    <div class="mb-6 flex items-center gap-4">
-        <a href="{{ route('owner.staff.index') }}" class="text-gray-500 hover:text-gray-900">&larr; Back to Staff List</a>
-        <h1 class="text-3xl font-extrabold text-gray-900">Add Staff Account</h1>
+<div class="max-w-2xl mx-auto animate-fade-in-up">
+    <div class="mb-6">
+        <a href="{{ route('owner.staff.index') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-stone-500 hover:text-amber-400 transition">
+            <i class="fa-solid fa-arrow-left text-xs"></i>
+            Back to Staff List
+        </a>
     </div>
 
-    @if ($errors->any())
-        <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r text-red-800 shadow-sm">
-            <ul class="list-disc pl-5">
-                @foreach ($errors->all() as $error)
+    <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-amber-400/70">Management</p>
+        <h1 class="font-display mt-2 text-3xl font-black text-stone-50 mb-6">Add Staff Account</h1>
+    </div>
+
+    @if($errors->any())
+        <div class="alert-error-dark mb-6 flex items-start gap-3">
+            <i class="fa-solid fa-circle-exclamation text-red-400 mt-0.5 flex-shrink-0"></i>
+            <ul class="text-sm list-disc pl-2">
+                @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
         </div>
     @endif
 
-    <div class="bg-white shadow sm:rounded-lg border border-gray-100">
-        <form action="{{ route('owner.staff.store') }}" method="POST" class="p-6">
+    <div class="rounded-2xl border border-stone-800 bg-stone-900 p-6">
+        <form action="{{ route('owner.staff.store') }}" method="POST" class="space-y-5">
             @csrf
-            
-            <div class="space-y-6">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Display Name</label>
-                    <input type="text" name="name" value="{{ old('name') }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-zinc-500 focus:ring-zinc-500">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Email Address</label>
-                    <input type="email" name="email" value="{{ old('email') }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-zinc-500 focus:ring-zinc-500">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Password</label>
-                    <input type="password" name="password" required minlength="8" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-zinc-500 focus:ring-zinc-500">
-                    <p class="text-xs text-gray-500 mt-1">Must be at least 8 characters long.</p>
-                </div>
+            <div>
+                <label class="mb-1.5 block text-xs font-semibold text-stone-500 uppercase tracking-wider">Display Name</label>
+                <input type="text" name="name" value="{{ old('name') }}" required class="input-dark" placeholder="Full name">
             </div>
-
-            <div class="mt-8">
-                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-zinc-800 hover:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-500">
+            <div>
+                <label class="mb-1.5 block text-xs font-semibold text-stone-500 uppercase tracking-wider">Email Address</label>
+                <input type="email" name="email" value="{{ old('email') }}" required class="input-dark" placeholder="staff@brewlang.loc">
+            </div>
+            <div>
+                <label class="mb-1.5 block text-xs font-semibold text-stone-500 uppercase tracking-wider">Password</label>
+                <input type="password" name="password" required minlength="8" class="input-dark" placeholder="Min. 8 characters">
+                <p class="mt-1.5 text-xs text-stone-600">Must be at least 8 characters long.</p>
+            </div>
+            <div class="pt-2">
+                <button type="submit" class="btn-primary glow-amber w-full !rounded-2xl">
+                    <i class="fa-solid fa-user-plus text-sm"></i>
                     Create Account
                 </button>
             </div>

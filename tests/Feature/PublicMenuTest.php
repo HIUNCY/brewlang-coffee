@@ -47,7 +47,7 @@ class PublicMenuTest extends TestCase
             'name' => 'Banana Cake',
         ]);
 
-        $response = $this->get('/menu?category=coffee');
+        $response = $this->get('/menu/coffee');
 
         $response->assertStatus(200);
         $response->assertSee($coffeeMenu->name);

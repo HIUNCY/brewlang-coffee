@@ -14,7 +14,11 @@ class EnsureStaff
             return redirect('/login');
         }
 
-        if (!auth()->user()->isStaff() && !auth()->user()->isOwner()) {
+        if (auth()->user()->isOwner()) {
+            return redirect('/owner/dashboard')->with('error', 'You do not have permission to access that page.');
+        }
+
+        if (!auth()->user()->isStaff()) {
             return redirect('/login')->with('error', 'You do not have permission.');
         }
 

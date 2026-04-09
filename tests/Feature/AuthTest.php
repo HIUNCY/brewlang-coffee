@@ -26,6 +26,15 @@ class AuthTest extends TestCase
         $response->assertRedirect('/staff/dashboard');
     }
 
+    public function test_staff_pages_redirect_owner_to_owner_dashboard(): void
+    {
+        $owner = User::factory()->owner()->create();
+
+        $response = $this->actingAs($owner)->get('/staff/dashboard');
+
+        $response->assertRedirect('/owner/dashboard');
+    }
+
     public function test_inactive_user_cannot_login(): void
     {
         $staff = User::factory()->staff()->inactive()->create([

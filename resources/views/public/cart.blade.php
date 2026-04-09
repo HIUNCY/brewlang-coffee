@@ -27,7 +27,10 @@
                         <div>
                             <h2 class="text-lg font-bold text-stone-100">{{ $item['name'] }}</h2>
                             <p class="mt-1 text-sm text-stone-500">IDR {{ number_format($item['price'], 0, ',', '.') }} each</p>
-                            <p class="mt-2 text-sm font-bold text-amber-400">Subtotal: IDR {{ number_format($item['subtotal'], 0, ',', '.') }}</p>
+                            <p class="mt-2 text-sm font-bold text-amber-400">
+                                Subtotal:
+                                <span data-item-subtotal="{{ $item['menu_id'] }}">IDR {{ number_format($item['subtotal'], 0, ',', '.') }}</span>
+                            </p>
                         </div>
                         <button type="button"
                             class="js-remove-item btn-danger flex-shrink-0"
@@ -48,7 +51,7 @@
                                 data-name="{{ $item['name'] }}">
                                 <i class="fa-solid fa-minus text-xs"></i>
                             </button>
-                            <div class="min-w-[3.5rem] rounded-xl bg-stone-800 border border-stone-700 px-4 py-2 text-center text-sm font-bold text-stone-200">
+                            <div class="min-w-[3.5rem] rounded-xl bg-stone-800 border border-stone-700 px-4 py-2 text-center text-sm font-bold text-stone-200" data-item-quantity="{{ $item['menu_id'] }}">
                                 {{ $item['quantity'] }}
                             </div>
                             <button type="button"
@@ -207,8 +210,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ── HTTP helper ────────────────────────────────────────────
-    const send = async (url, method, body = null) => {
-        await fetch(url, {
+    const send = async (url, method, body = null, options = {}) => {
+        const response = await fetch(url, {
             method,
             headers: {
                 'Content-Type': 'application/json',
@@ -217,7 +220,84 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             body: body ? JSON.stringify(body) : null,
         });
-        window.location.reload();
+
+        if (!response.ok) {
+            return null;
+        }
+
+        const payload = await response.json();
+
+        if (options.reload !== false) {
+            window.location.reload();
+        }
+
+        return payload;
+    };
+
+    const formatCurrency = (value) => `IDR ${Number(value || 0).toLocaleString('id-ID')}`;
+
+    const updateCartBadge = (count) => {
+        const cartLink = document.querySelector('a[href="{{ route('cart.index') }}"][aria-label="Cart"]');
+        if (!cartLink) {
+            return;
+        }
+
+        let badge = document.getElementById('cart-badge');
+
+        if (count > 0) {
+            if (!badge) {
+                badge = document.createElement('span');
+                badge.id = 'cart-badge';
+                badge.className = 'absolute -right-0.5 -top-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-400 px-1 text-xs font-bold text-stone-950';
+                cartLink.appendChild(badge);
+            }
+
+            badge.textContent = count;
+            badge.classList.add('animate-cart-bounce');
+            badge.addEventListener('animationend', () => badge.classList.remove('animate-cart-bounce'), { once: true });
+            return;
+        }
+
+        badge?.remove();
+    };
+
+    const updateSummary = (payload) => {
+        const itemCount = document.getElementById('summary-item-count');
+        const total = document.getElementById('summary-total');
+
+        if (itemCount) {
+            itemCount.textContent = payload.count;
+        }
+
+        if (total) {
+            total.textContent = formatCurrency(payload.total);
+        }
+
+        updateCartBadge(payload.count);
+    };
+
+    const updateQuantityUI = (menuId, quantity, subtotal) => {
+        const article = document.querySelector(`[data-cart-item="${menuId}"]`);
+        if (!article) {
+            return;
+        }
+
+        const quantityLabel = article.querySelector(`[data-item-quantity="${menuId}"]`);
+        const subtotalLabel = article.querySelector(`[data-item-subtotal="${menuId}"]`);
+        const buttons = article.querySelectorAll('.js-quantity-change');
+
+        if (quantityLabel) {
+            quantityLabel.textContent = quantity;
+        }
+
+        if (subtotalLabel) {
+            subtotalLabel.textContent = formatCurrency(subtotal);
+        }
+
+        buttons.forEach((button) => {
+            const isMinus = button.querySelector('.fa-minus');
+            button.dataset.quantity = String(isMinus ? quantity - 1 : quantity + 1);
+        });
     };
 
     // ── Quantity Change ────────────────────────────────────────
@@ -240,6 +320,19 @@ document.addEventListener('DOMContentLoaded', () => {
             send('{{ route('cart.updateQuantity') }}', 'POST', {
                 menu_id: menuId,
                 quantity: newQty,
+            }, { reload: false }).then((payload) => {
+                if (!payload) {
+                    return;
+                }
+
+                const item = payload.cart?.items?.[menuId];
+                if (!item) {
+                    window.location.reload();
+                    return;
+                }
+
+                updateQuantityUI(menuId, Number(item.quantity), Number(item.price) * Number(item.quantity));
+                updateSummary(payload);
             });
         });
     });
@@ -267,7 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 send('{{ route('cart.updateNote') }}', 'POST', {
                     menu_id: input.dataset.menuId,
                     note: input.value,
-                });
+                }, { reload: false });
             }, 600);
         });
     });

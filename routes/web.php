@@ -14,10 +14,11 @@ use App\Http\Controllers\StaffAccountController;
 use App\Http\Controllers\StaffDashboardController;
 use App\Http\Controllers\StaffMenuController;
 use App\Http\Controllers\StaffOrderController;
+use App\Models\Menu;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/menu', [MenuBrowseController::class, 'index'])->name('menu');
+Route::get('/menu/{category?}', [MenuBrowseController::class, 'index'])->name('menu');
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
@@ -54,7 +55,7 @@ Route::middleware(['auth', 'owner'])->prefix('owner')->name('owner.')->group(fun
 
     Route::get('/orders', [OwnerOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OwnerOrderController::class, 'show'])->name('orders.show');
-    
+
     Route::get('/expenses', [ExpenseController::class, 'index'])->name('expenses.index');
     Route::get('/expenses/create', [ExpenseController::class, 'create'])->name('expenses.create');
     Route::post('/expenses', [ExpenseController::class, 'store'])->name('expenses.store');

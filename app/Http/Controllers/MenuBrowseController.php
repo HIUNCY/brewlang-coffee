@@ -11,12 +11,12 @@ class MenuBrowseController extends Controller
 {
     public function index(Request $request): View
     {
-        $categorySlug = (string) $request->query('category');
+        $categorySlug = $request->route('category');
         $categories = Category::with(['menus' => fn ($query) => $query->active()])->get();
 
-        // Match the slug from URL against available category names
-        $matchedCategory = $categories->first(function ($c) use ($categorySlug) {
-            return str($c->name)->lower()->replace(' ', '-') === $categorySlug;
+        $matchedCategory = $categories->first(function ($category) use ($categorySlug) {
+            return $categorySlug !== ''
+                && (string) str($category->name)->lower()->replace(' ', '-') === (string) str($categorySlug)->lower();
         });
 
         $menus = Menu::active()
@@ -24,9 +24,10 @@ class MenuBrowseController extends Controller
             ->when($matchedCategory, function ($query) use ($matchedCategory) {
                 return $query->where('category_id', $matchedCategory->id);
             })
+            ->orderBy('category_id')
+            ->orderBy('name')
             ->get();
 
-        // We still pass the original slug to the view for highlighting the active filter
         $category = $categorySlug;
 
         return view('public.menu', compact('menus', 'categories', 'category'));

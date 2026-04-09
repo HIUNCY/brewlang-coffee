@@ -1,0 +1,34 @@
+# Exclude VCS
+.git
+.gitignore
+.gitattributes
+
+# Exclude dependencies (we will install them in the Dockerfile)
+vendor
+node_modules
+
+# Exclude OS-specific files
+.DS_Store
+Thumbs.db
+
+# Exclude environment files
+.env
+.env.testing
+
+# Exclude build artifacts
+public/build
+storage/*.key
+
+# Exclude IDE files
+.idea
+.vscode
+.serena
+.codex
+
+# Exclude logs and caches
+storage/logs/*.log
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/testing/*
+storage/framework/views/*.php
+.phpunit.result.cache

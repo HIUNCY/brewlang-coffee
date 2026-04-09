@@ -1,6 +1,6 @@
 @props([
     'menu',
-    'placeholder' => asset('images/menu-placeholder.jpg'),
+    'placeholder' => 'images/menu-placeholder.jpg',
 ])
 
 <article {{ $attributes->class('group overflow-hidden rounded-3xl border border-stone-800 bg-stone-900 transition duration-300 hover:border-amber-400/30 hover:shadow-xl hover:shadow-amber-400/5') }}>
@@ -14,7 +14,7 @@
 
         {{-- Price badge --}}
         <span class="absolute bottom-3 right-3 rounded-full bg-amber-400/10 border border-amber-400/25 px-3 py-1 text-xs font-bold text-amber-400 backdrop-blur-sm">
-            IDR {{ number_format($menu->price, 0, ',', '.') }}
+            Rp {{ number_format($menu->price, 0, ',', '.') }}
         </span>
 
         {{-- Category badge --}}

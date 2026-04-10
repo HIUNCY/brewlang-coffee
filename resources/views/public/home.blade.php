@@ -2,7 +2,7 @@
 
 @section('content')
 {{-- Hero Background --}}
-<div class="relative min-h-[90vh] flex items-center overflow-hidden">
+<div class="relative flex min-h-[calc(100vh-4rem)] items-center overflow-hidden">
     {{-- Ambient background --}}
     <div class="absolute inset-0 pointer-events-none">
         <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-amber-800/20 blur-[100px]"></div>
@@ -10,54 +10,54 @@
         <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,rgba(120,53,15,0.12),transparent_60%)]"></div>
     </div>
 
-    <section class="relative max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
-        <div class="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+    <section class="relative max-w-7xl mx-auto w-full px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-28">
+        <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-12">
 
             {{-- Left: Hero copy --}}
             <div class="animate-fade-in-up">
-                <p class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.3em] text-amber-400/80 mb-6">
-                    <span class="w-6 h-px bg-amber-400/50"></span>
+                <p class="mb-4 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-amber-400/80 sm:mb-6 sm:text-xs sm:tracking-[0.3em]">
+                    <span class="h-px w-5 bg-amber-400/50 sm:w-6"></span>
                     Brewlang Coffee
                 </p>
-                <h1 class="font-display text-5xl font-black tracking-tight text-stone-50 sm:text-6xl lg:text-7xl leading-[1.05]">
+                <h1 class="font-display text-4xl font-black tracking-tight text-stone-50 sm:text-6xl lg:text-7xl leading-[1.05]">
                     Where every sip
                     <span class="text-gradient-amber"> tells a story.</span>
                 </h1>
-                <p class="mt-6 max-w-xl text-lg leading-8 text-stone-400">
+                <p class="mt-5 max-w-xl text-base leading-7 text-stone-400 sm:mt-6 sm:text-lg sm:leading-8">
                     Browse our handcrafted menu, add to cart, and place your order directly from your table. Warm drinks, real flavors.
                 </p>
-                <div class="mt-10 flex flex-wrap gap-4">
-                    <a href="{{ route('menu') }}" class="btn-primary glow-amber">
+                <div class="mt-8 grid gap-3 sm:mt-10 sm:flex sm:flex-wrap sm:gap-4">
+                    <a href="{{ route('menu') }}" class="btn-primary glow-amber justify-center">
                         <i class="fa-solid fa-utensils text-sm"></i>
                         Browse Menu
                     </a>
-                    <a href="{{ route('cart.index') }}" class="btn-secondary">
+                    <a href="{{ route('cart.index') }}" class="btn-secondary justify-center">
                         <i class="fa-solid fa-bag-shopping text-sm"></i>
                         View Cart
                     </a>
                 </div>
 
                 {{-- Stats --}}
-                <div class="mt-14 flex gap-8">
+                <div class="mt-10 grid grid-cols-3 gap-3 sm:mt-14 sm:flex sm:gap-8">
                     <div>
-                        <p class="text-3xl font-black text-stone-100">50+</p>
-                        <p class="text-xs text-stone-500 mt-1 uppercase tracking-widest">Menu Items</p>
+                        <p class="text-2xl font-black text-stone-100 sm:text-3xl">9</p>
+                        <p class="mt-1 text-[10px] uppercase tracking-widest text-stone-500 sm:text-xs">Menu Items</p>
                     </div>
-                    <div class="border-l border-stone-800 pl-8">
-                        <p class="text-3xl font-black text-stone-100">100%</p>
-                        <p class="text-xs text-stone-500 mt-1 uppercase tracking-widest">Fresh Daily</p>
+                    <div class="border-l border-stone-800 pl-3 sm:pl-8">
+                        <p class="text-2xl font-black text-stone-100 sm:text-3xl">100%</p>
+                        <p class="mt-1 text-[10px] uppercase tracking-widest text-stone-500 sm:text-xs">Fresh Daily</p>
                     </div>
-                    <div class="border-l border-stone-800 pl-8">
-                        <p class="text-3xl font-black text-stone-100">Fast</p>
-                        <p class="text-xs text-stone-500 mt-1 uppercase tracking-widest">Table Service</p>
+                    <div class="border-l border-stone-800 pl-3 sm:pl-8">
+                        <p class="text-2xl font-black text-stone-100 sm:text-3xl">Fast</p>
+                        <p class="mt-1 text-[10px] uppercase tracking-widest text-stone-500 sm:text-xs">Table Service</p>
                     </div>
                 </div>
             </div>
 
             {{-- Right: Featured Items --}}
             <div class="animate-fade-in-up delay-200">
-                <div class="rounded-3xl border border-stone-800 bg-stone-900/80 p-6 backdrop-blur-sm">
-                    <div class="flex items-center justify-between mb-6">
+                <div class="rounded-3xl border border-stone-800 bg-stone-900/80 p-4 backdrop-blur-sm sm:p-6">
+                    <div class="mb-5 flex items-center justify-between gap-3 sm:mb-6">
                         <p class="text-xs font-bold uppercase tracking-[0.25em] text-amber-400/70">Featured Today</p>
                         <a href="{{ route('menu') }}" class="text-xs font-semibold text-stone-500 hover:text-amber-400 transition flex items-center gap-1">
                             See all <i class="fa-solid fa-arrow-right text-[10px]"></i>
@@ -66,13 +66,13 @@
                     <div class="space-y-3">
                         @forelse($recommendedMenus as $menu)
                             <article class="group rounded-2xl border border-stone-800 bg-stone-800/50 p-4 transition hover:border-amber-400/20 hover:bg-stone-800">
-                                <div class="flex items-start justify-between gap-4">
+                                <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                                     <div class="min-w-0 flex-1">
                                         <p class="text-xs text-stone-500">{{ $menu->category?->name }}</p>
                                         <h2 class="mt-0.5 text-base font-bold text-stone-100 truncate">{{ $menu->name }}</h2>
                                         <p class="mt-1 text-xs leading-5 text-stone-500 line-clamp-1">{{ $menu->description ?: 'Freshly prepared and served daily.' }}</p>
                                     </div>
-                                    <span class="flex-shrink-0 rounded-full bg-amber-400/10 border border-amber-400/20 px-2.5 py-1 text-xs font-bold text-amber-400">
+                                    <span class="w-fit flex-shrink-0 rounded-full bg-amber-400/10 border border-amber-400/20 px-2.5 py-1 text-xs font-bold text-amber-400">
                                         IDR {{ number_format($menu->price, 0, ',', '.') }}
                                     </span>
                                 </div>

@@ -1,28 +1,28 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-6xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+<div class="max-w-6xl mx-auto px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
 
     {{-- Page Header --}}
-    <div class="flex flex-col gap-4 border-b border-stone-800 pb-8 sm:flex-row sm:items-end sm:justify-between animate-fade-in-up">
+    <div class="flex flex-col gap-4 border-b border-stone-800 pb-6 sm:flex-row sm:items-end sm:justify-between sm:pb-8 animate-fade-in-up">
         <div>
             <p class="text-xs font-bold uppercase tracking-[0.3em] text-amber-400/70">Cart</p>
-            <h1 class="font-display mt-3 text-4xl font-black tracking-tight text-stone-50">
+            <h1 class="font-display mt-3 text-3xl font-black tracking-tight text-stone-50 sm:text-4xl">
                 Review your order.
             </h1>
         </div>
-        <a href="{{ route('menu') }}" class="btn-secondary flex-shrink-0">
+        <a href="{{ route('menu') }}" class="btn-secondary w-full justify-center sm:w-auto sm:flex-shrink-0">
             <i class="fa-solid fa-arrow-left text-xs"></i>
             Continue Browsing
         </a>
     </div>
 
-    <div class="mt-10 grid gap-6 lg:grid-cols-[1fr_360px] animate-fade-in-up delay-100">
+    <div class="mt-8 grid gap-6 lg:mt-10 lg:grid-cols-[1fr_360px] animate-fade-in-up delay-100">
 
         {{-- Cart Items --}}
         <div class="space-y-4" id="cart-items-container">
             @forelse($cartItems as $item)
-                <article class="rounded-3xl border border-stone-800 bg-stone-900 p-6 transition hover:border-stone-700" data-cart-item="{{ $item['menu_id'] }}">
+                <article class="rounded-3xl border border-stone-800 bg-stone-900 p-4 transition hover:border-stone-700 sm:p-6" data-cart-item="{{ $item['menu_id'] }}">
                     <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                         <div>
                             <h2 class="text-lg font-bold text-stone-100">{{ $item['name'] }}</h2>
@@ -33,7 +33,7 @@
                             </p>
                         </div>
                         <button type="button"
-                            class="js-remove-item btn-danger flex-shrink-0"
+                            class="js-remove-item btn-danger w-full justify-center flex-shrink-0 sm:w-auto"
                             data-menu-id="{{ $item['menu_id'] }}"
                             data-name="{{ $item['name'] }}">
                             <i class="fa-solid fa-trash-can text-xs"></i>
@@ -43,19 +43,19 @@
 
                     <div class="mt-5 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
                         {{-- Quantity --}}
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center justify-center gap-2 sm:justify-start">
                             <button type="button"
-                                class="js-quantity-change h-10 w-10 rounded-full border border-stone-700 text-stone-300 font-bold transition hover:border-amber-400/40 hover:text-amber-400 hover:bg-amber-400/5"
+                                class="js-quantity-change h-11 w-11 rounded-full border border-stone-700 text-stone-300 font-bold transition hover:border-amber-400/40 hover:text-amber-400 hover:bg-amber-400/5"
                                 data-menu-id="{{ $item['menu_id'] }}"
                                 data-quantity="{{ $item['quantity'] - 1 }}"
                                 data-name="{{ $item['name'] }}">
                                 <i class="fa-solid fa-minus text-xs"></i>
                             </button>
-                            <div class="min-w-[3.5rem] rounded-xl bg-stone-800 border border-stone-700 px-4 py-2 text-center text-sm font-bold text-stone-200" data-item-quantity="{{ $item['menu_id'] }}">
+                            <div class="min-w-[4rem] rounded-xl bg-stone-800 border border-stone-700 px-4 py-2.5 text-center text-sm font-bold text-stone-200" data-item-quantity="{{ $item['menu_id'] }}">
                                 {{ $item['quantity'] }}
                             </div>
                             <button type="button"
-                                class="js-quantity-change h-10 w-10 rounded-full border border-stone-700 text-stone-300 font-bold transition hover:border-amber-400/40 hover:text-amber-400 hover:bg-amber-400/5"
+                                class="js-quantity-change h-11 w-11 rounded-full border border-stone-700 text-stone-300 font-bold transition hover:border-amber-400/40 hover:text-amber-400 hover:bg-amber-400/5"
                                 data-menu-id="{{ $item['menu_id'] }}"
                                 data-quantity="{{ $item['quantity'] + 1 }}"
                                 data-name="{{ $item['name'] }}">
@@ -87,7 +87,7 @@
         </div>
 
         {{-- Summary Sidebar --}}
-        <aside class="rounded-3xl border border-stone-800 bg-stone-900/80 p-6 dark-glass h-fit lg:sticky lg:top-24">
+        <aside class="rounded-3xl border border-stone-800 bg-stone-900/80 p-4 dark-glass h-fit sm:p-6 lg:sticky lg:top-24">
             <p class="text-xs font-bold uppercase tracking-[0.25em] text-amber-400/70 mb-6">
                 <i class="fa-solid fa-receipt mr-1.5"></i>
                 Order Summary
@@ -140,7 +140,7 @@
                         @error('table_number')<p class="mt-1.5 text-xs text-red-400">{{ $message }}</p>@enderror
                     </div>
                     @error('cart')<p class="text-xs text-red-400">{{ $message }}</p>@enderror
-                    <button type="submit" class="btn-primary glow-amber w-full mt-2 !rounded-2xl">
+                    <button type="submit" class="btn-primary glow-amber min-h-12 w-full mt-2 !rounded-2xl">
                         <i class="fa-solid fa-arrow-right text-sm"></i>
                         Place Order
                     </button>

@@ -8,23 +8,23 @@
     </div>
 
     {{-- Hero --}}
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+    <div class="relative max-w-7xl mx-auto px-4 py-12 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
         <div class="max-w-2xl animate-fade-in-up">
-            <p class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.3em] text-amber-400/70 mb-5">
+            <p class="mb-4 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-amber-400/70 sm:mb-5 sm:text-xs sm:tracking-[0.3em]">
                 <span class="w-5 h-px bg-amber-400/40"></span>
                 Our Story
             </p>
-            <h1 class="font-display text-5xl font-black tracking-tight text-stone-50 sm:text-6xl leading-tight">
+            <h1 class="font-display text-4xl font-black tracking-tight text-stone-50 sm:text-6xl leading-tight">
                 Born from a love of coffee.
             </h1>
-            <p class="mt-6 text-lg leading-8 text-stone-400">
+            <p class="mt-5 text-base leading-7 text-stone-400 sm:mt-6 sm:text-lg sm:leading-8">
                 Welcome to <span class="font-bold text-amber-400">Brewlang Coffee</span>. We believe in serving the finest coffee, sourced ethically and brewed to perfection.
             </p>
         </div>
 
         {{-- Story Cards --}}
-        <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in-up delay-200">
-            <div class="rounded-3xl border border-stone-800 bg-stone-900 p-6">
+        <div class="mt-10 grid gap-4 sm:mt-16 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 animate-fade-in-up delay-200">
+            <div class="rounded-3xl border border-stone-800 bg-stone-900 p-5 sm:p-6">
                 <div class="w-11 h-11 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center mb-5">
                     <i class="fa-solid fa-seedling text-amber-400"></i>
                 </div>
@@ -33,7 +33,7 @@
                     Our journey started in a small roastery. We have mastered the art of espresso, pour-overs, and cold brews. Every cup is a testament to our passion.
                 </p>
             </div>
-            <div class="rounded-3xl border border-stone-800 bg-stone-900 p-6">
+            <div class="rounded-3xl border border-stone-800 bg-stone-900 p-5 sm:p-6">
                 <div class="w-11 h-11 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center mb-5">
                     <i class="fa-solid fa-fire text-amber-400"></i>
                 </div>
@@ -42,7 +42,7 @@
                     Every drink is prepared with precision and passion. We hand-select our beans and brew each order fresh, ensuring consistent quality in every cup.
                 </p>
             </div>
-            <div class="rounded-3xl border border-stone-800 bg-stone-900 p-6 sm:col-span-2 lg:col-span-1">
+            <div class="rounded-3xl border border-stone-800 bg-stone-900 p-5 sm:col-span-2 sm:p-6 lg:col-span-1">
                 <div class="w-11 h-11 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center mb-5">
                     <i class="fa-solid fa-mug-hot text-amber-400"></i>
                 </div>
@@ -54,8 +54,8 @@
         </div>
 
         {{-- CTA --}}
-        <div class="mt-12 animate-fade-in-up delay-300">
-            <a href="{{ route('menu') }}" class="btn-primary glow-amber">
+        <div class="mt-10 animate-fade-in-up delay-300 sm:mt-12">
+            <a href="{{ route('menu') }}" class="btn-primary glow-amber w-full justify-center sm:w-auto">
                 <i class="fa-solid fa-utensils text-sm"></i>
                 Explore Our Menu
             </a>

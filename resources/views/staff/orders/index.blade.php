@@ -22,7 +22,37 @@
         </div>
     @endif
 
-    <div class="rounded-2xl border border-stone-800 bg-stone-900 overflow-hidden animate-fade-in-up delay-100">
+    <div class="space-y-4 md:hidden animate-fade-in-up delay-100">
+        @forelse($orders as $order)
+            <article class="rounded-2xl border border-stone-800 bg-stone-900 p-4">
+                <div class="flex items-start justify-between gap-3">
+                    <div>
+                        <p class="font-bold text-amber-400">{{ $order->order_code }}</p>
+                        <p class="mt-1 text-xs text-stone-600">{{ $order->created_at->format('d M Y H:i') }}</p>
+                    </div>
+                    <x-order-status-badge :status="$order->status" />
+                </div>
+                <div class="mt-4 grid gap-3 sm:grid-cols-2">
+                    <div class="rounded-xl border border-stone-800 bg-stone-800/60 p-3">
+                        <p class="text-[11px] uppercase tracking-wider text-stone-500">Customer</p>
+                        <p class="mt-1 text-sm font-semibold text-stone-200">{{ $order->customer_name }}</p>
+                        <p class="mt-1 text-xs text-stone-500">Table {{ $order->table_number }}</p>
+                    </div>
+                    <div class="rounded-xl border border-stone-800 bg-stone-800/60 p-3">
+                        <p class="text-[11px] uppercase tracking-wider text-stone-500">Items</p>
+                        <p class="mt-1 text-sm font-semibold text-stone-200">{{ $order->items->sum('quantity') }} items</p>
+                    </div>
+                </div>
+                <a href="{{ route('staff.orders.show', $order) }}" class="btn-secondary mt-4 w-full justify-center !rounded-xl !py-2.5 !text-sm">
+                    Open Order
+                </a>
+            </article>
+        @empty
+            <x-empty-state title="No orders in the queue" description="New customer orders will appear here once checkout is completed." />
+        @endforelse
+    </div>
+
+    <div class="hidden overflow-hidden rounded-2xl border border-stone-800 bg-stone-900 md:block animate-fade-in-up delay-100">
         <div class="overflow-x-auto">
             <table class="min-w-full table-dark">
                 <thead>

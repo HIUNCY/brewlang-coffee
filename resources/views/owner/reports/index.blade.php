@@ -11,7 +11,7 @@
 </style>
 
 <div class="max-w-7xl mx-auto animate-fade-in-up">
-    <div class="flex items-end justify-between mb-8">
+    <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
             <p class="text-xs font-semibold uppercase tracking-[0.3em] text-amber-400/70">Finance</p>
             <h1 class="font-display mt-2 text-3xl font-black text-stone-50">Business Report</h1>
@@ -23,17 +23,17 @@
     </div>
 
     {{-- Filter --}}
-    <div class="no-print rounded-2xl border border-stone-800 bg-stone-900 p-5 mb-8">
-        <form action="{{ route('owner.reports.index') }}" method="GET" class="flex flex-wrap items-end gap-4">
-            <div>
+    <div class="no-print mb-8 rounded-2xl border border-stone-800 bg-stone-900 p-5">
+        <form action="{{ route('owner.reports.index') }}" method="GET" class="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end">
+            <div class="w-full sm:w-auto sm:min-w-[11rem]">
                 <label class="mb-1.5 block text-xs font-semibold text-stone-500 uppercase tracking-wider">From Date</label>
-                <input type="date" name="date_from" value="{{ $date_from }}" class="input-dark !w-auto">
+                <input type="date" name="date_from" value="{{ $date_from }}" class="input-dark w-full">
             </div>
-            <div>
+            <div class="w-full sm:w-auto sm:min-w-[11rem]">
                 <label class="mb-1.5 block text-xs font-semibold text-stone-500 uppercase tracking-wider">To Date</label>
-                <input type="date" name="date_to" value="{{ $date_to }}" class="input-dark !w-auto">
+                <input type="date" name="date_to" value="{{ $date_to }}" class="input-dark w-full">
             </div>
-            <button type="submit" class="btn-secondary !rounded-xl flex items-center gap-2">
+            <button type="submit" class="btn-secondary flex w-full items-center justify-center gap-2 !rounded-xl sm:w-auto">
                 <i class="fa-solid fa-magnifying-glass text-sm"></i>
                 Generate
             </button>

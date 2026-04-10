@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-stone-950 text-stone-50 flex items-center justify-center min-h-screen relative overflow-hidden">
+<body class="bg-stone-950 text-stone-50 flex min-h-screen items-center justify-center overflow-x-hidden px-4 py-6 relative">
 
     {{-- Ambient background --}}
     <div class="absolute inset-0 pointer-events-none">
@@ -16,12 +16,12 @@
         <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(120,53,15,0.08),transparent_65%)]"></div>
     </div>
 
-    <div class="relative w-full max-w-sm z-10 px-4 py-8 animate-scale-in">
+    <div class="relative z-10 w-full max-w-sm animate-scale-in">
 
         <div class="rounded-3xl border border-stone-800 bg-stone-900/90 overflow-hidden dark-glass shadow-2xl">
 
             {{-- Card Header --}}
-            <div class="bg-gradient-to-br from-amber-900/80 to-stone-950 border-b border-stone-800 p-8 text-center">
+            <div class="bg-gradient-to-br from-amber-900/80 to-stone-950 border-b border-stone-800 p-6 text-center sm:p-8">
                 <a href="{{ route('home') }}" class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-amber-400/10 border border-amber-400/20 mb-5 transition hover:bg-amber-400/20">
                     <i class="fa-solid fa-mug-hot text-amber-400 text-xl"></i>
                 </a>
@@ -30,7 +30,7 @@
             </div>
 
             {{-- Form --}}
-            <div class="p-7">
+            <div class="p-5 sm:p-7">
                 {{-- Errors --}}
                 @if($errors->any())
                     <div class="alert-error-dark mb-5 flex items-start gap-3">
@@ -80,7 +80,7 @@
                     </div>
 
                     {{-- Submit --}}
-                    <button type="submit" class="btn-primary glow-amber w-full !rounded-2xl mt-2">
+                    <button type="submit" class="btn-primary glow-amber min-h-12 w-full !rounded-2xl mt-2">
                         <i class="fa-solid fa-right-to-bracket text-sm"></i>
                         Secure Login
                     </button>

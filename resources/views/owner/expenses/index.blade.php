@@ -20,7 +20,31 @@
         </div>
     @endif
 
-    <div class="rounded-2xl border border-stone-800 bg-stone-900 overflow-hidden animate-fade-in-up delay-100">
+    <div class="space-y-4 md:hidden animate-fade-in-up delay-100">
+        @forelse($expenses as $expense)
+            <article class="rounded-2xl border border-stone-800 bg-stone-900 p-4">
+                <div class="flex items-start justify-between gap-3">
+                    <div class="min-w-0">
+                        <p class="truncate text-base font-semibold text-stone-200">{{ $expense->title }}</p>
+                        <p class="mt-1 text-xs text-stone-500">{{ \Carbon\Carbon::parse($expense->expense_date)->format('M d, Y') }}</p>
+                    </div>
+                    <p class="text-sm font-bold text-red-400">- {{ number_format($expense->amount, 0, ',', '.') }}</p>
+                </div>
+                @if($expense->description)
+                    <p class="mt-3 text-sm leading-6 text-stone-500">{{ $expense->description }}</p>
+                @endif
+            </article>
+        @empty
+            <x-empty-state
+                title="No expenses recorded"
+                description="Add your first expense entry to start tracking operational costs."
+                :action-href="route('owner.expenses.create')"
+                action-label="Record Expense"
+            />
+        @endforelse
+    </div>
+
+    <div class="hidden overflow-hidden rounded-2xl border border-stone-800 bg-stone-900 md:block animate-fade-in-up delay-100">
         <div class="overflow-x-auto">
             <table class="min-w-full table-dark">
                 <thead>

@@ -51,6 +51,18 @@ h1, h2, h3, .font-display {
     font-family: 'Playfair Display', Georgia, serif;
 }
 
+.menu-toggle .menu-toggle-open {
+    display: none;
+}
+
+.menu-toggle[open] .menu-toggle-closed {
+    display: none;
+}
+
+.menu-toggle[open] .menu-toggle-open {
+    display: inline-block;
+}
+
 /* ============================================================
    Utility Classes
    ============================================================ */

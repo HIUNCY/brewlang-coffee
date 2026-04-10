@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="max-w-2xl mx-auto animate-fade-in-up">
-    <div class="mb-6">
+    <div class="mb-5 sm:mb-6">
         <a href="{{ route('staff.menus.index') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-stone-500 hover:text-amber-400 transition">
             <i class="fa-solid fa-arrow-left text-xs"></i>
             Back to Menu List
@@ -10,8 +10,8 @@
     </div>
 
     <div>
-        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-amber-400/70">Management</p>
-        <h1 class="font-display mt-2 text-3xl font-black text-stone-50 mb-6">Edit Menu Item</h1>
+        <p class="text-[11px] font-semibold uppercase tracking-[0.24em] text-amber-400/70 sm:text-xs sm:tracking-[0.3em]">Management</p>
+        <h1 class="font-display mt-2 text-2xl font-black text-stone-50 mb-5 sm:mb-6 sm:text-3xl">Edit Menu Item</h1>
     </div>
 
     @if($errors->any())
@@ -25,7 +25,7 @@
         </div>
     @endif
 
-    <div class="rounded-2xl border border-stone-800 bg-stone-900 p-6">
+    <div class="rounded-2xl border border-stone-800 bg-stone-900 p-4 sm:p-6">
         <form action="{{ route('staff.menus.update', $menu) }}" method="POST" enctype="multipart/form-data" class="space-y-5">
             @csrf
             @method('PUT')
@@ -92,7 +92,7 @@
             </div>
 
             <div class="pt-2">
-                <button type="submit" class="btn-primary glow-amber w-full !rounded-2xl">
+                <button type="submit" class="btn-primary glow-amber min-h-12 w-full !rounded-2xl">
                     <i class="fa-solid fa-floppy-disk text-sm"></i>
                     Save Changes
                 </button>

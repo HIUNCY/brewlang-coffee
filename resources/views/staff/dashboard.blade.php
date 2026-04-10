@@ -10,7 +10,7 @@
             <h1 class="font-display mt-2 text-3xl font-black text-stone-50">Monitor the café floor.</h1>
             <p class="mt-1 text-sm text-stone-500">Track today's orders, queue status, and category performance.</p>
         </div>
-        <a href="{{ route('staff.orders.index') }}" class="btn-primary !rounded-xl glow-amber flex-shrink-0">
+        <a href="{{ route('staff.orders.index') }}" class="btn-primary !rounded-xl glow-amber w-full justify-center sm:w-auto sm:justify-start">
             <i class="fa-solid fa-receipt text-sm"></i>
             Open Order Queue
         </a>
@@ -61,7 +61,7 @@
 
         {{-- Recent Orders --}}
         <div class="rounded-2xl border border-stone-800 bg-stone-900 overflow-hidden">
-            <div class="flex items-center justify-between px-5 py-4 border-b border-stone-800">
+            <div class="flex flex-col gap-2 px-5 py-4 border-b border-stone-800 sm:flex-row sm:items-center sm:justify-between">
                 <h2 class="font-semibold text-stone-200">
                     <i class="fa-solid fa-receipt text-amber-400/60 mr-2 text-sm"></i>
                     Recent Orders
@@ -90,7 +90,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="py-8 text-center text-stone-600 text-sm">No recent orders available.</td>
+                                <td colspan="4" class="px-4 py-8 text-center text-stone-600 text-sm">No recent orders available.</td>
                             </tr>
                         @endforelse
                     </tbody>

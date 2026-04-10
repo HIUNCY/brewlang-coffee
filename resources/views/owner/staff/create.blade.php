@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="max-w-2xl mx-auto animate-fade-in-up">
-    <div class="mb-6">
+    <div class="mb-5 sm:mb-6">
         <a href="{{ route('owner.staff.index') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-stone-500 hover:text-amber-400 transition">
             <i class="fa-solid fa-arrow-left text-xs"></i>
             Back to Staff List
@@ -10,8 +10,8 @@
     </div>
 
     <div>
-        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-amber-400/70">Management</p>
-        <h1 class="font-display mt-2 text-3xl font-black text-stone-50 mb-6">Add Staff Account</h1>
+        <p class="text-[11px] font-semibold uppercase tracking-[0.24em] text-amber-400/70 sm:text-xs sm:tracking-[0.3em]">Management</p>
+        <h1 class="font-display mt-2 text-2xl font-black text-stone-50 mb-5 sm:mb-6 sm:text-3xl">Add Staff Account</h1>
     </div>
 
     @if($errors->any())
@@ -25,7 +25,7 @@
         </div>
     @endif
 
-    <div class="rounded-2xl border border-stone-800 bg-stone-900 p-6">
+    <div class="rounded-2xl border border-stone-800 bg-stone-900 p-4 sm:p-6">
         <form action="{{ route('owner.staff.store') }}" method="POST" class="space-y-5">
             @csrf
             <div>
@@ -42,7 +42,7 @@
                 <p class="mt-1.5 text-xs text-stone-600">Must be at least 8 characters long.</p>
             </div>
             <div class="pt-2">
-                <button type="submit" class="btn-primary glow-amber w-full !rounded-2xl">
+                <button type="submit" class="btn-primary glow-amber min-h-12 w-full !rounded-2xl">
                     <i class="fa-solid fa-user-plus text-sm"></i>
                     Create Account
                 </button>

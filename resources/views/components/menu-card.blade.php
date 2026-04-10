@@ -5,7 +5,7 @@
 
 <article {{ $attributes->class('group overflow-hidden rounded-3xl border border-stone-800 bg-stone-900 transition duration-300 hover:border-amber-400/30 hover:shadow-xl hover:shadow-amber-400/5') }}>
     {{-- Image --}}
-    <div class="relative h-52 overflow-hidden">
+    <div class="relative h-44 overflow-hidden sm:h-52">
         <img src="{{ $menu->photo_url ?? $placeholder }}"
              alt="{{ $menu->name }}"
              class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
@@ -26,13 +26,13 @@
     </div>
 
     {{-- Content --}}
-    <div class="p-5">
+    <div class="p-4 sm:p-5">
         <h2 class="text-lg font-bold text-stone-100 leading-snug">{{ $menu->name }}</h2>
         <p class="mt-2 text-sm leading-6 text-stone-500 line-clamp-2">{{ $menu->description ?: 'Freshly made in our kitchen and coffee bar.' }}</p>
 
         <button
             type="button"
-            class="js-add-to-cart mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-amber-400 px-4 py-3 text-sm font-bold text-stone-950 transition duration-200 hover:bg-amber-300 active:scale-95"
+            class="js-add-to-cart mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-amber-400 px-4 py-3 text-sm font-bold text-stone-950 transition duration-200 hover:bg-amber-300 active:scale-95"
             data-menu-id="{{ $menu->id }}"
         >
             <i class="fa-solid fa-plus text-xs js-cart-icon"></i>

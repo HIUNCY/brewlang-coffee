@@ -67,7 +67,7 @@
     @endphp
 
     <div class="rounded-2xl border border-stone-800 bg-stone-900 p-6 mb-6 animate-fade-in-up delay-200">
-        <div class="flex items-center justify-between mb-6">
+        <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
                 <p class="text-xs font-semibold uppercase tracking-wider text-stone-500">
                     <i class="fa-solid fa-chart-bar text-amber-400/60 mr-1.5"></i>
@@ -75,7 +75,7 @@
                 </p>
                 <p class="mt-1 text-sm text-stone-600">Last 6 months</p>
             </div>
-            <div class="flex items-center gap-4 text-xs font-semibold">
+            <div class="flex flex-wrap items-center gap-3 text-xs font-semibold">
                 <span class="flex items-center gap-1.5 text-emerald-400">
                     <span class="w-3 h-3 rounded-sm bg-emerald-400/70 inline-block"></span>
                     Income

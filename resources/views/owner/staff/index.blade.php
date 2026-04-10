@@ -26,7 +26,47 @@
         </div>
     @endif
 
-    <div class="rounded-2xl border border-stone-800 bg-stone-900 overflow-hidden animate-fade-in-up delay-100">
+    <div class="space-y-4 md:hidden animate-fade-in-up delay-100">
+        @forelse($users as $user)
+            <article class="rounded-2xl border border-stone-800 bg-stone-900 p-4">
+                <div class="flex items-start gap-3">
+                    <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-amber-400/20 bg-amber-400/10 text-xs font-bold uppercase text-amber-400">
+                        {{ substr($user->name, 0, 1) }}
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="min-w-0">
+                                <p class="truncate text-base font-semibold text-stone-200">{{ $user->name }}</p>
+                                <p class="truncate text-sm text-stone-500">{{ $user->email }}</p>
+                            </div>
+                            <span class="rounded-full border px-3 py-1 text-xs font-bold {{ $user->is_active ? 'bg-emerald-400/10 text-emerald-400 border-emerald-400/30' : 'bg-red-400/10 text-red-400 border-red-400/30' }}">
+                                {{ $user->is_active ? 'Active' : 'Inactive' }}
+                            </span>
+                        </div>
+                        <p class="mt-2 text-xs uppercase tracking-wider text-stone-500">{{ $user->role }}</p>
+                        @if(!$user->isOwner())
+                            <form action="{{ route('owner.staff.toggle', $user) }}" method="POST" class="mt-4">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="btn-secondary w-full justify-center !rounded-xl !py-2.5 !text-sm">
+                                    {{ $user->is_active ? 'Deactivate' : 'Activate' }}
+                                </button>
+                            </form>
+                        @endif
+                    </div>
+                </div>
+            </article>
+        @empty
+            <x-empty-state
+                title="No staff accounts found"
+                description="Create a staff account so the team can access the operational dashboard."
+                :action-href="route('owner.staff.create')"
+                action-label="Create Staff Account"
+            />
+        @endforelse
+    </div>
+
+    <div class="hidden overflow-hidden rounded-2xl border border-stone-800 bg-stone-900 md:block animate-fade-in-up delay-100">
         <div class="overflow-x-auto">
             <table class="min-w-full table-dark">
                 <thead>

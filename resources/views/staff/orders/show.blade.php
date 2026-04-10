@@ -46,7 +46,29 @@
                 </div>
             </div>
 
-            <div class="mt-8 overflow-x-auto">
+            <div class="mt-8 space-y-3 lg:hidden">
+                @foreach($order->items as $item)
+                    <article class="rounded-2xl border border-stone-800 bg-stone-800/50 p-4">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="min-w-0">
+                                <p class="text-sm font-semibold text-stone-200">{{ $item->menu_name_snapshot }}</p>
+                                <p class="mt-1 text-xs text-stone-500">Qty {{ $item->quantity }} • IDR {{ number_format($item->price_snapshot, 0, ',', '.') }}</p>
+                            </div>
+                            <p class="text-sm font-semibold text-stone-200">IDR {{ number_format($item->subtotal, 0, ',', '.') }}</p>
+                        </div>
+                        <div class="mt-3 rounded-xl border border-stone-700 bg-stone-900/60 p-3">
+                            <p class="text-[11px] uppercase tracking-wider text-stone-500">Note</p>
+                            <p class="mt-1 text-sm text-stone-300">{{ $item->item_note ?: '-' }}</p>
+                        </div>
+                    </article>
+                @endforeach
+                <div class="rounded-2xl border border-stone-800 bg-stone-800/50 p-4 text-right">
+                    <p class="text-xs uppercase tracking-wider text-stone-500">Total</p>
+                    <p class="mt-2 text-lg font-black text-amber-400">IDR {{ number_format($order->total_price, 0, ',', '.') }}</p>
+                </div>
+            </div>
+
+            <div class="mt-8 hidden overflow-x-auto lg:block">
                 <table class="min-w-full table-dark">
                     <thead>
                         <tr>

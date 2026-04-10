@@ -12,7 +12,7 @@
 
     {{-- Navbar --}}
     <nav class="glass-nav fixed start-0 top-0 z-50 w-full">
-        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
 
             {{-- Logo --}}
             <a href="{{ route('home') }}" class="flex items-center gap-3 group">
@@ -79,19 +79,34 @@
                         </div>
                     </div>
                 @else
-                    <a href="{{ route('login') }}" class="btn-primary !py-2 !px-4 !text-sm !rounded-xl glow-amber">
+                    <a href="{{ route('login') }}" class="btn-primary !py-2 !px-3 !text-xs !rounded-xl glow-amber sm:!px-4 sm:!text-sm">
                         <i class="fa-solid fa-lock text-xs"></i>
-                        Login
+                        <span class="hidden sm:inline">Login</span>
                     </a>
                 @endauth
 
-                {{-- Mobile hamburger --}}
-                <button data-collapse-toggle="navbar-mobile" type="button"
-                    class="md:hidden inline-flex h-9 w-9 items-center justify-center rounded-lg text-stone-400 hover:bg-stone-800 transition"
-                    aria-controls="navbar-mobile" aria-expanded="false">
-                    <span class="sr-only">Open menu</span>
-                    <i class="fa-solid fa-bars text-sm"></i>
-                </button>
+                {{-- Mobile menu --}}
+                <details class="menu-toggle relative md:hidden">
+                    <summary class="inline-flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-lg text-stone-400 transition hover:bg-stone-800 hover:text-amber-400 [&::-webkit-details-marker]:hidden">
+                        <span class="sr-only">Open menu</span>
+                        <i class="menu-toggle-closed fa-solid fa-bars text-sm"></i>
+                        <i class="menu-toggle-open fa-solid fa-xmark text-sm"></i>
+                    </summary>
+                    <div class="absolute right-0 mt-3 w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-stone-800 bg-stone-900 p-3 shadow-2xl">
+                        <a href="{{ route('menu') }}" class="flex items-center gap-2 rounded-xl px-3 py-3 text-sm font-semibold text-stone-300 transition hover:bg-stone-800 hover:text-amber-400">
+                            <i class="fa-solid fa-utensils w-4 text-xs text-amber-400/50"></i>
+                            Menu
+                        </a>
+                        <a href="{{ route('about') }}" class="flex items-center gap-2 rounded-xl px-3 py-3 text-sm font-semibold text-stone-300 transition hover:bg-stone-800 hover:text-amber-400">
+                            <i class="fa-solid fa-circle-info w-4 text-xs text-amber-400/50"></i>
+                            About
+                        </a>
+                        <a href="{{ route('contact') }}" class="flex items-center gap-2 rounded-xl px-3 py-3 text-sm font-semibold text-stone-300 transition hover:bg-stone-800 hover:text-amber-400">
+                            <i class="fa-solid fa-envelope w-4 text-xs text-amber-400/50"></i>
+                            Contact
+                        </a>
+                    </div>
+                </details>
             </div>
 
             {{-- Nav Links --}}
@@ -126,15 +141,15 @@
 
     {{-- Footer --}}
     <footer class="mt-auto border-t border-stone-800 bg-stone-900">
-        <div class="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
-            <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <div class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+            <div class="flex flex-col items-center gap-5 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
                 <a href="{{ route('home') }}" class="flex items-center gap-2.5 group">
                     <div class="w-8 h-8 rounded-lg bg-amber-400/10 border border-amber-400/20 flex items-center justify-center transition group-hover:bg-amber-400/20">
                         <i class="fa-solid fa-mug-hot text-amber-400 text-xs"></i>
                     </div>
                     <span class="font-bold text-stone-300 tracking-tight">Brewlang</span>
                 </a>
-                <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-stone-500">
+                <ul class="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm font-medium text-stone-500">
                     <li><a href="{{ route('about') }}" class="hover:text-amber-400 transition">About</a></li>
                     <li><a href="{{ route('menu') }}" class="hover:text-amber-400 transition">Menu</a></li>
                     <li><a href="{{ route('contact') }}" class="hover:text-amber-400 transition">Contact</a></li>

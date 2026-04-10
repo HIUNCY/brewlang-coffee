@@ -24,13 +24,9 @@
         @forelse($menus as $menu)
             <article class="rounded-2xl border border-stone-800 bg-stone-900 p-4">
                 <div class="flex items-start gap-4">
-                    @if($menu->photo)
-                        <img src="{{ Storage::url($menu->photo) }}" class="h-16 w-16 rounded-2xl object-cover border border-stone-700 flex-shrink-0">
-                    @else
-                        <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl border border-stone-700 bg-stone-800">
-                            <i class="fa-solid fa-image text-stone-600"></i>
-                        </div>
-                    @endif
+                    <img src="{{ $menu->photo_url ?? asset('images/menu-placeholder.jpg') }}" 
+                         alt="{{ $menu->name }}"
+                         class="h-16 w-16 rounded-2xl object-cover border border-stone-700 flex-shrink-0">
                     <div class="min-w-0 flex-1">
                         <div class="flex items-start justify-between gap-3">
                             <div class="min-w-0">
@@ -86,13 +82,9 @@
                     @forelse($menus as $menu)
                     <tr>
                         <td>
-                            @if($menu->photo)
-                                <img src="{{ Storage::url($menu->photo) }}" class="h-10 w-10 rounded-xl object-cover border border-stone-700">
-                            @else
-                                <div class="h-10 w-10 rounded-xl bg-stone-800 border border-stone-700 flex items-center justify-center">
-                                    <i class="fa-solid fa-image text-stone-600 text-xs"></i>
-                                </div>
-                            @endif
+                            <img src="{{ $menu->photo_url ?? asset('images/menu-placeholder.jpg') }}" 
+                                 alt="{{ $menu->name }}"
+                                 class="h-10 w-10 rounded-xl object-cover border border-stone-700">
                         </td>
                         <td class="font-semibold text-stone-200">{{ rtrim($menu->name, ' *') }}</td>
                         <td class="text-stone-500 text-sm">{{ $menu->category->name }}</td>

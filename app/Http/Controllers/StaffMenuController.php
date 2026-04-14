@@ -27,7 +27,10 @@ class StaffMenuController extends Controller
         $data = $request->validated();
         
         if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('menus', 'public');
+            $file = $request->file('photo');
+            $filename = $file->hashName();
+            $file->move(public_path('images/menu'), $filename);
+            $data['photo'] = $filename;
         }
 
         $data['is_active'] = $request->has('is_active') ? true : false;
@@ -49,9 +52,15 @@ class StaffMenuController extends Controller
 
         if ($request->hasFile('photo')) {
             if ($menu->photo) {
-                Storage::disk('public')->delete($menu->photo);
+                $oldPath = public_path('images/menu/' . $menu->photo);
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
             }
-            $data['photo'] = $request->file('photo')->store('menus', 'public');
+            $file = $request->file('photo');
+            $filename = $file->hashName();
+            $file->move(public_path('images/menu'), $filename);
+            $data['photo'] = $filename;
         }
 
         $data['is_active'] = $request->has('is_active') ? true : false;

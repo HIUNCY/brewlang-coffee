@@ -65,13 +65,9 @@
             {{-- Photo --}}
             <div>
                 <label class="mb-2 block text-xs font-semibold text-stone-500 uppercase tracking-wider">Current Photo</label>
-                @if($menu->photo)
-                    <img src="{{ Storage::url($menu->photo) }}" class="h-28 w-28 rounded-2xl object-cover border border-stone-700 mb-4">
-                @else
-                    <div class="h-28 w-28 rounded-2xl bg-stone-800 border border-dashed border-stone-700 flex items-center justify-center mb-4">
-                        <i class="fa-solid fa-image text-stone-600 text-2xl"></i>
-                    </div>
-                @endif
+                <img src="{{ $menu->photo_url ?? asset('images/menu-placeholder.jpg') }}" 
+                     alt="{{ $menu->name }}"
+                     class="h-28 w-28 rounded-2xl object-cover border border-stone-700 mb-4">
 
                 <label class="mb-1.5 block text-xs font-semibold text-stone-500 uppercase tracking-wider">Replace Photo <span class="normal-case text-stone-700">(Optional)</span></label>
                 <input type="file" name="photo" accept="image/jpeg,image/png,image/webp"

@@ -3,10 +3,77 @@
 @section('content')
 <style>
 @media print {
-    aside { display: none !important; }
-    .no-print { display: none !important; }
-    body { background-color: #fff !important; color: #000 !important; }
-    main { padding: 0 !important; }
+    /* Hide layout decorations and sidebars */
+    aside, header, nav, .no-print { display: none !important; }
+    
+    /* Ensure content containers are visible even if they have "hidden" class in layout */
+    .hidden { display: block !important; }
+    .lg\:hidden { display: none !important; }
+    
+    /* Reset main container for full content rendering */
+    main { 
+        display: block !important; 
+        position: static !important;
+        width: 100% !important; 
+        height: auto !important; 
+        overflow: visible !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    body { 
+        background-color: #fff !important; 
+        color: #000 !important; 
+        min-height: auto !important;
+    }
+
+    /* Disable animations that might keep content hidden (opacity 0) */
+    .animate-fade-in-up, [class*="animate-"] { 
+        animation: none !important; 
+        opacity: 1 !important; 
+        transform: none !important;
+    }
+
+    /* Recolor specific utility classes for paper visibility */
+    .text-stone-50, .text-stone-100, .text-stone-200, .text-white { color: #1c1917 !important; }
+    .text-stone-500, .text-stone-600 { color: #44403c !important; }
+    .text-emerald-400, .text-emerald-500 { color: #065f46 !important; } /* Dark Green */
+    .text-red-400, .text-red-500 { color: #991b1b !important; } /* Dark Red */
+    .text-amber-400, .text-amber-500, .text-gradient-amber { 
+        color: #92400e !important; 
+        background: none !important;
+        -webkit-text-fill-color: initial !important; 
+    }
+
+    /* Table styles for print */
+    .table-dark { 
+        background-color: transparent !important; 
+        color: #000 !important;
+        border: 1px solid #e5e7eb !important;
+    }
+    .table-dark thead th { 
+        background-color: #f3f4f6 !important; 
+        color: #000 !important; 
+        border-bottom: 2px solid #000 !important;
+    }
+    .table-dark tbody tr { 
+        background-color: transparent !important; 
+        border-bottom: 1px solid #e5e7eb !important; 
+    }
+    .table-dark td { color: #000 !important; }
+
+    /* Remove scrollbars and max-height constraints */
+    [class*="max-h-"], .overflow-y-auto { 
+        max-height: none !important; 
+        overflow: visible !important; 
+    }
+
+    /* Border & Background normalization */
+    .rounded-2xl, .bg-stone-900, .bg-amber-400\/5 { 
+        background-color: transparent !important; 
+        border: 1px solid #e5e7eb !important; 
+    }
+    .glow-amber { box-shadow: none !important; }
 }
 </style>
 
